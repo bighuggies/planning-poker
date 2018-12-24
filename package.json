@@ -1,0 +1,7 @@
+{
+  "name": "planning-poker",
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.8.0"
+  }
+}

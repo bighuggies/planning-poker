@@ -1,0 +1,15 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "the backend of planning poker",
+  "main": "src/server.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "redux": "^4.0.1",
+    "socket.io": "^2.2.0"
+  }
+}

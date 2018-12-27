@@ -3,8 +3,5 @@
   "private": true,
   "devDependencies": {
     "lerna": "^3.8.0"
-  },
-  "dependencies": {
-    "socket.io-client": "^2.2.0"
   }
 }

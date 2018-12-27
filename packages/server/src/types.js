@@ -1,0 +1,5 @@
+module.exports = {
+  CREATE_ROOM: 'CREATE_ROOM',
+  ROOM_CREATED: 'ROOM_CREATED',
+  REMOVE_ROOM: 'REMOVE_ROOM',
+}

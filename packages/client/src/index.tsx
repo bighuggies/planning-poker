@@ -1,6 +1,10 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import './index.css'
+import React, { createContext } from 'react'
+import { render } from 'react-dom'
 import App from './components/App/App'
+import { StateProvider } from './components/WithState/WithState'
 
-ReactDOM.render(<App />, document.getElementById('root'))
+render((
+  <StateProvider>
+    <App />
+  </StateProvider>
+), document.getElementById('root'))

@@ -17,7 +17,7 @@ const reducers = (state = {}, action) => {
 
     case REMOVE_ROOM: {
       const roomId = action.payload.roomId
-      if (state[roomId].players.length === 0) delete state[roomId]
+      if (roomId && state[roomId].players.length === 0) delete state[roomId]
       return state
     }
 

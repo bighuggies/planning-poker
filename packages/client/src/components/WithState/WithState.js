@@ -3,7 +3,7 @@ import { reducers } from '../../reducers'
 
 export const StateContext = createContext()
 
-export class WithState extends PureComponent {
+export class StateProvider extends PureComponent {
   state = {
     roomId: 0,
     players: [],

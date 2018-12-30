@@ -6,7 +6,7 @@ import { StateContext } from '../WithState/WithState'
 
 const { Provider, Consumer } = createContext({})
 
-export class WithActions extends PureComponent {
+export class ActionsProvider extends PureComponent {
   static contextType = StateContext
 
   createRoom() {

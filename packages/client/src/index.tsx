@@ -1,13 +1,13 @@
 import React from 'react'
 import { render } from 'react-dom'
 import App from './components/App/App'
-import { WithState } from './components/WithState/WithState'
-import { WithActions } from './components/WithActions/WithActions'
+import { StateProvider } from './components/WithState/WithState'
+import { ActionsProvider } from './components/WithActions/WithActions'
 
 render((
-  <WithState>
-    <WithActions>
+  <StateProvider>
+    <ActionsProvider>
       <App />
-    </WithActions>
-  </WithState>
+    </ActionsProvider>
+  </StateProvider>
 ), document.getElementById('root'))

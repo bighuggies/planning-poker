@@ -1,42 +1,33 @@
-import React, {
-  createContext, cloneElement, PureComponent, Children,
-} from 'react'
-import { client } from '../../socket'
+import React, { createContext, PureComponent } from 'react'
+import { reducers } from '../../reducers'
 
-const { Provider, Consumer } = createContext({})
+export const StateContext = createContext()
 
-export class StateProvider extends PureComponent {
+export class WithState extends PureComponent {
   state = {
     roomId: 0,
     players: [],
-    field: '',
-    update: this.update.bind(this),
-    createRoom: this.createRoom,
+    fields: {
+      roomId: '',
+      playerName: '',
+    },
+    dispatch: this.dispatch.bind(this),
   }
 
-  update({ target: { value }}) {
-    this.setState({ field: value })
-  }
-
-  createRoom() {
-    client.emit('CREATE_ROOM')
-  }
-
-  componentDidMount() {
-    client.on('ROOM_CREATED', ({ roomId }) => {
-      this.setState({ roomId })
+  dispatch(action) {
+    this.setState((state) => {
+      const { dispatch, ...stateValues } = this.state
+      return reducers(stateValues, action)
     })
   }
 
   render() {
     return (
-      <Provider value={this.state}>
-        { Children.map(this.props.children, (child) => {
-          return cloneElement(child, this.props)
-        }) }
-      </Provider>
+      <StateContext.Provider value={this.state}>
+        { this.props.children }
+      </StateContext.Provider>
     )
   }
 }
 
-export const State = Consumer
+export const State = StateContext.Consumer

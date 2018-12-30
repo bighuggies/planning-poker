@@ -1,10 +1,10 @@
-import React, { createContext } from 'react'
+import React from 'react'
 import { render } from 'react-dom'
 import App from './components/App/App'
-import { StateProvider } from './components/WithState/WithState'
+import { WithState } from './components/WithState/WithState'
 
 render((
-  <StateProvider>
+  <WithState>
     <App />
-  </StateProvider>
+  </WithState>
 ), document.getElementById('root'))

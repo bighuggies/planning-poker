@@ -31,3 +31,9 @@ export class WithState extends PureComponent {
 }
 
 export const State = StateContext.Consumer
+
+export const withState = (WrappedComponent) => (props) => (
+  <State>
+    { (state) => <WrappedComponent {...props} {...state} /> }
+  </State>
+)

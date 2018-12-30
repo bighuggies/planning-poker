@@ -1,7 +1,7 @@
 const Server = require('socket.io')
 const { createStore } = require('redux')
 const types = require('./types')
-const { createRoom, removeRoom } = require('./actions')
+const actions = require('./actions')
 const { reducers } = require('./reducers')
 const { createUniqueId } = require('./helpers')
 
@@ -14,12 +14,13 @@ io.on('connect', (socket) => {
     const roomId = createUniqueId(roomIds)
 
     socket.roomId = roomId
-    store.dispatch(createRoom(roomId))
+    socket.actions = actions(roomId)
+    store.dispatch(socket.actions.createRoom())
     socket.emit(types.ROOM_CREATED, { roomId })
   })
 
   socket.on('disconnect', () => {
-    store.dispatch(removeRoom(socket.roomId))
+    if (socket.roomId) store.dispatch(socket.actions.removeRoom())
   })
 })
 

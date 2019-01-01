@@ -19,6 +19,12 @@ io.on('connect', (socket) => {
     socket.emit(types.ROOM_CREATED, { roomId })
   })
 
+  socket.on('JOIN_ROOM', ({ roomId, playerName }) => {
+    socket.roomId = roomId
+    socket.actions = actions(roomId)
+    store.dispatch(socket.actions.joinRoom(playerName))
+  })
+
   socket.on('disconnect', () => {
     if (socket.roomId) store.dispatch(socket.actions.removeRoom())
   })

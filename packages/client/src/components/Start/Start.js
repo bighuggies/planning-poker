@@ -1,30 +1,62 @@
-import React, { memo } from 'react'
-import { types } from '../../types'
-import { State } from '../WithState/WithState'
+import React, { memo, Fragment } from 'react'
+import { Redirect } from '@reach/router'
+import { compose } from '../../helpers'
+import { updateField } from '../../action-creators'
+import { withState } from '../WithState/WithState'
 import { Actions } from '../WithActions/WithActions'
 
-export const Start = memo(() => {
+const isDisabled = (roomId) => roomId.length !== 3
+
+export const Start = compose(
+  memo,
+  withState,
+)((props) => {
+  if (props.roomId !== 0) return <Redirect noThrow to="/name" />
+
   const changeHandler = (dispatch) => (event) => {
     const value = event.target.value
-    dispatch({ type: types.UPDATE_ROOM_ID_FIELD, payload: value })
+    dispatch(updateField(value))
   }
 
   return (
-    <State>
-      { ({ fields, dispatch }) => {
-        const roomIdValue = fields ? fields.roomId : ''
-        return (
-          <div>
+    <Fragment>
+      <form>
+        <fieldset>
+          <legend>Join a planning poker session</legend>
+
+          <label>
+            <span>Session Pin</span>
             <input
               type="text"
-              onChange={changeHandler(dispatch)}
-              value={roomIdValue} />
-            <Actions>
-              { ({ createRoom }) => <button onClick={createRoom}>Host</button> }
-            </Actions>
-          </div>
-        )
-      } }
-    </State>
+              onChange={changeHandler(props.dispatch)}
+              value={props.fields.roomId} />
+          </label>
+
+          <Actions>
+            { ({ joinRoom }) => (
+              <button
+                onClick={joinRoom}
+                disabled={isDisabled(props.fields.roomId)}>
+                Join session
+              </button>
+            ) }
+          </Actions>
+        </fieldset>
+      </form>
+
+      <Fragment>
+        <p>
+          If you don’t have a session, you can host one for you and your team.
+        </p>
+
+        <Actions>
+          { ({ createRoom }) => (
+            <button onClick={createRoom}>
+              Host session
+            </button>
+          ) }
+        </Actions>
+      </Fragment>
+    </Fragment>
   )
 })

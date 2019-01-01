@@ -5,11 +5,11 @@ export const reducers = (state, action) => {
     case types.ROOM_CREATED:
       return { roomId: action.payload }
 
-    case types.UPDATE_ROOM_ID_FIELD:
+    case types.UPDATE_FIELD:
       return {
         fields: {
           ...state.fields,
-          roomId: action.payload,
+          [action.payload.field]: action.payload.value,
         },
       }
 

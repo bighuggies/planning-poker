@@ -29,7 +29,10 @@ export class ActionsProvider extends PureComponent {
 
   render() {
     return (
-      <Provider value={{ createRoom: this.createRoom }}>
+      <Provider value={{
+        createRoom: this.createRoom,
+        joinRoom: this.joinRoom,
+      }}>
         { this.props.children }
       </Provider>
     )

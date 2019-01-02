@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Router } from '@reach/router'
 import { Start } from '../Start/Start'
+import { Name } from '../Name/Name'
 
 class App extends Component {
   render() {
@@ -8,6 +9,7 @@ class App extends Component {
       <main>
         <Router>
           <Start path="/" />
+          <Name path="/name" />
         </Router>
       </main>
     )

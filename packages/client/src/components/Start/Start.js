@@ -1,7 +1,7 @@
 import React, { memo, Fragment } from 'react'
-import { Redirect } from '@reach/router'
+import { redirectTo, Redirect } from '@reach/router'
 import { compose } from '../../helpers'
-import { updateField } from '../../action-creators'
+import { updateField, roomCreated } from '../../action-creators'
 import { withState } from '../WithState/WithState'
 import { Actions } from '../WithActions/WithActions'
 
@@ -13,9 +13,14 @@ export const Start = compose(
 )((props) => {
   if (props.roomId !== 0) return <Redirect noThrow to="/name" />
 
-  const changeHandler = (dispatch) => (event) => {
+  const changeHandler = (event) => {
     const value = event.target.value
-    dispatch(updateField(value))
+    props.dispatch(updateField('roomId', value))
+  }
+
+  const navigateToName = () => {
+    props.dispatch(roomCreated(props.fields.roomId))
+    redirectTo('/name')
   }
 
   return (
@@ -28,14 +33,14 @@ export const Start = compose(
             <span>Session Pin</span>
             <input
               type="text"
-              onChange={changeHandler(props.dispatch)}
+              onChange={changeHandler}
               value={props.fields.roomId} />
           </label>
 
           <Actions>
             { ({ joinRoom }) => (
               <button
-                onClick={joinRoom}
+                onClick={navigateToName}
                 disabled={isDisabled(props.fields.roomId)}>
                 Join session
               </button>

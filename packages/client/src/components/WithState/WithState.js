@@ -6,6 +6,7 @@ export const StateContext = createContext()
 export class StateProvider extends PureComponent {
   state = {
     roomId: 0,
+    player: {},
     players: [],
     fields: {
       roomId: '',

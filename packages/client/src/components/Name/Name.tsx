@@ -9,8 +9,15 @@ interface FieldProps {
   playerName: string
 }
 
+interface PlayerProps {
+  id: string,
+  name: string,
+}
+
 interface Props {
   roomId: number,
+  player: PlayerProps,
+  players: PlayerProps[],
   fields: FieldProps,
   dispatch: Function,
 }
@@ -30,6 +37,7 @@ export const Name = compose(
   withState,
 )((props: Props) => {
   if (props.roomId === 0) return <Redirect noThrow to="/" />
+  if (props.player && props.player.id) return <Redirect noThrow to="/lobby" />
 
   const changeHandler = (dispatch: Function) => (event: Event) => {
     const value = event.target.value

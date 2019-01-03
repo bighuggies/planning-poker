@@ -22,14 +22,6 @@ interface Props {
   dispatch: Function,
 }
 
-interface Target {
-  value: string,
-}
-
-interface Event {
-  target: Target,
-}
-
 const isDisabled = (playerName: string) => playerName.length <= 2
 
 export const Name = compose(
@@ -39,10 +31,12 @@ export const Name = compose(
   if (props.roomId === 0) return <Redirect noThrow to="/" />
   if (props.player && props.player.id) return <Redirect noThrow to="/lobby" />
 
-  const changeHandler = (dispatch: Function) => (event: Event) => {
-    const value = event.target.value
-    props.dispatch(updateField('playerName', value))
-  }
+  const changeHandler =
+    (dispatch: Function) =>
+    (event: React.FormEvent<HTMLInputElement>): void => {
+      const value = event.currentTarget.value
+      props.dispatch(updateField('playerName', value))
+    }
 
   return (
     <section>

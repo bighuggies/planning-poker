@@ -19,13 +19,18 @@ io.on('connect', (socket) => {
     socket.emit(types.ROOM_CREATED, { roomId })
   })
 
-  socket.on('JOIN_ROOM', ({ roomId, playerName }) => {
-    const players = Object.keys(store.getState()[roomId].players)
+  socket.on(types.JOIN_ROOM, ({ roomId, playerName }) => {
+    const existingPlayers = Object.keys(store.getState()[roomId].players)
 
     socket.roomId = roomId
     socket.actions = actions(roomId)
-    socket.playerId = createPlayerId(players)
+    socket.playerId = createPlayerId(existingPlayers)
     store.dispatch(socket.actions.joinRoom(socket.playerId, playerName))
+
+    const players = store.getState()[roomId].players
+
+    io.to(roomId).emit(types.UPDATE_STATE, { players: Object.values(players) })
+    socket.emit(types.ROOM_JOINED, { player: players[socket.playerId] })
   })
 
   socket.on('disconnect', () => {

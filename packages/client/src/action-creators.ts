@@ -7,6 +7,7 @@ interface Action {
 
 interface Player {
   id: string,
+  host: boolean,
   name: string,
 }
 
@@ -23,4 +24,9 @@ export const roomCreated = (roomId: number): Action => ({
 export const roomJoined = (player: Player): Action => ({
   type: types.ROOM_JOINED,
   payload: player,
+})
+
+export const updatePlayers = (players: Player[]): Action => ({
+  type: types.UPDATE_PLAYERS,
+  payload: players,
 })

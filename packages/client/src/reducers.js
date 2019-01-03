@@ -6,10 +6,7 @@ export const reducers = (state, action) => {
       return { roomId: action.payload }
 
     case types.ROOM_JOINED:
-      return {
-        player: action.payload,
-        players: [ ...state.players, action.payload ],
-      }
+      return { player: action.payload }
 
     case types.UPDATE_FIELD:
       return {
@@ -18,6 +15,9 @@ export const reducers = (state, action) => {
           [action.payload.field]: action.payload.value,
         },
       }
+
+    case types.UPDATE_PLAYERS:
+      return { players: action.payload }
 
     default:
       return state

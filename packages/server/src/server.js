@@ -13,6 +13,7 @@ io.on('connect', (socket) => {
     const roomIds = Object.keys(store.getState())
     const roomId = createRoomId(roomIds)
 
+    socket.join(roomId)
     socket.roomId = roomId
     socket.actions = actions(roomId)
     store.dispatch(socket.actions.createRoom())
@@ -22,6 +23,7 @@ io.on('connect', (socket) => {
   socket.on(types.JOIN_ROOM, ({ roomId, playerName }) => {
     const existingPlayers = Object.keys(store.getState()[roomId].players)
 
+    socket.join(roomId)
     socket.roomId = roomId
     socket.actions = actions(roomId)
     socket.playerId = createPlayerId(existingPlayers)

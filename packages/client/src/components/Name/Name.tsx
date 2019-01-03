@@ -47,7 +47,7 @@ export const Name = compose(
 
       <form onSubmit={(event) => event.preventDefault()}>
         <fieldset>
-          <legend>Let other’s know who you are.</legend>
+          <legend>Let others know who you are.</legend>
 
           <label>
             <span>Your name</span>

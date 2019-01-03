@@ -3,7 +3,7 @@ const { createStore } = require('redux')
 const types = require('./types')
 const actions = require('./actions')
 const { reducers } = require('./reducers')
-const { createUniqueId } = require('./helpers')
+const { createRoomId, createPlayerId } = require('./helpers')
 
 const store = createStore(reducers)
 const io = new Server(8000, { origins: '*:3000' })
@@ -11,7 +11,7 @@ const io = new Server(8000, { origins: '*:3000' })
 io.on('connect', (socket) => {
   socket.on(types.CREATE_ROOM, () => {
     const roomIds = Object.keys(store.getState())
-    const roomId = createUniqueId(roomIds)
+    const roomId = createRoomId(roomIds)
 
     socket.roomId = roomId
     socket.actions = actions(roomId)
@@ -20,9 +20,12 @@ io.on('connect', (socket) => {
   })
 
   socket.on('JOIN_ROOM', ({ roomId, playerName }) => {
+    const players = Object.keys(store.getState()[roomId].players)
+
     socket.roomId = roomId
     socket.actions = actions(roomId)
-    store.dispatch(socket.actions.joinRoom(playerName))
+    socket.playerId = createPlayerId(players)
+    store.dispatch(socket.actions.joinRoom(socket.playerId, playerName))
   })
 
   socket.on('disconnect', () => {

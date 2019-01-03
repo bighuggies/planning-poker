@@ -8,7 +8,10 @@ const rootReducers = (state = {}, action) => {
       const roomId = action.payload.roomId
       return {
         ...state,
-        [roomId]: {},
+        [roomId]: {
+          id: roomId,
+          players: {},
+        },
       }
     }
 

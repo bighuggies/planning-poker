@@ -21,12 +21,13 @@ const actions = (roomId) => ({
 
   /**
    * adds a new player to a room.
+   * @param   {string} playerId   a unique id for a player
    * @param   {string} playerName a player's name
    * @return  {object}
    */
-  joinRoom: (playerName) => ({
+  joinRoom: (playerId, playerName) => ({
     type: types.JOIN_ROOM,
-    payload: { roomId, playerName },
+    payload: { roomId, playerId, playerName },
   }),
 
   /**

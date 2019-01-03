@@ -6,15 +6,23 @@ function collectionContainsKey(collection, key) {
   return collection.includes(key)
 }
 
-function createUniqueId(collection) {
+function createRoomId(rooms) {
   const id = generateId()
-  return !collectionContainsKey(collection, id)
+  return !collectionContainsKey(rooms, id)
     ? id
-    : createUniqueId(collection)
+    : createRoomId(rooms)
+}
+
+function createPlayerId(players) {
+  const id = generateId(0)
+  return !collectionContainsKey(players, id)
+    ? id
+    : createPlayerId(players)
 }
 
 module.exports = {
   generateId,
   collectionContainsKey,
-  createUniqueId,
+  createRoomId,
+  createPlayerId,
 }

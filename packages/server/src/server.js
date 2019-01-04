@@ -31,7 +31,7 @@ io.on('connect', (socket) => {
 
     const players = store.getState()[roomId].players
 
-    io.to(roomId).emit(types.UPDATE_STATE, { players: Object.values(players) })
+    io.to(roomId).emit(types.UPDATE_PLAYERS, { players: Object.values(players) })
     socket.emit(types.ROOM_JOINED, { player: players[socket.playerId] })
   })
 

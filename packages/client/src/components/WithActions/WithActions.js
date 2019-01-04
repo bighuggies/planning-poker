@@ -31,7 +31,7 @@ export class ActionsProvider extends PureComponent {
       this.context.dispatch(roomJoined(player))
     })
 
-    client.on(types.UPDATE_STATE, ({ players }) => {
+    client.on(types.UPDATE_PLAYERS, ({ players }) => {
       this.context.dispatch(updatePlayers(players))
     })
 

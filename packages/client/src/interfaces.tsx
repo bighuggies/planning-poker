@@ -3,3 +3,7 @@ export interface Player {
   host: boolean;
   playerName: string;
 }
+
+export interface Choices {
+  [key: string]: string[];
+}

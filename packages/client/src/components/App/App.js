@@ -3,6 +3,7 @@ import { Router } from '@reach/router'
 import { Start } from '../Start/Start'
 import { Name } from '../Name/Name'
 import { Lobby } from '../Lobby/Lobby'
+import { Poker } from '../Poker/Poker'
 
 class App extends Component {
   render() {
@@ -12,6 +13,7 @@ class App extends Component {
           <Start path="/" />
           <Name path="/name" />
           <Lobby path="/lobby" />
+          <Poker path="/poker" />
         </Router>
       </main>
     )

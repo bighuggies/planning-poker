@@ -35,6 +35,10 @@ io.on('connect', (socket) => {
     socket.emit(types.ROOM_JOINED, { player: players[socket.playerId] })
   })
 
+  socket.on('START_SESSION', () => {
+    io.to(socket.roomId).emit('SESSION_STARTED')
+  })
+
   socket.on('disconnect', () => {
     if (socket.roomId) store.dispatch(socket.actions.removeRoom())
   })

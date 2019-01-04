@@ -1,6 +1,7 @@
 import React, { memo } from 'react'
 import { Redirect } from '@reach/router'
 import { compose, partial } from '../../helpers'
+import { Player } from '../../interfaces'
 import { updateField } from '../../action-creators'
 import { withState } from '../WithState/WithState'
 import { Actions } from '../WithActions/WithActions'
@@ -9,15 +10,10 @@ interface FieldProps {
   playerName: string
 }
 
-interface PlayerProps {
-  id: string,
-  name: string,
-}
-
 interface Props {
   roomId: number,
-  player: PlayerProps,
-  players: PlayerProps[],
+  player: Player,
+  players: Player[],
   fields: FieldProps,
   dispatch: Function,
 }

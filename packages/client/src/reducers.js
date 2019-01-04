@@ -15,6 +15,9 @@ export const reducers = (state, action) => {
           [action.payload.field]: action.payload.value,
         },
       }
+    
+    case types.UPDATE_STATE:
+      return { ...state, ...action.payload }
 
     case types.UPDATE_PLAYERS:
       return { players: action.payload }

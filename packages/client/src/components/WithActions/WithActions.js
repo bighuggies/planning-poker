@@ -2,7 +2,7 @@ import React, { createContext, PureComponent } from 'react'
 import { navigate } from '@reach/router'
 import { client } from '../../socket'
 import { types } from '../../types'
-import { roomCreated, roomJoined, updatePlayers } from '../../action-creators'
+import { roomCreated, roomJoined, updatePlayers, updateState } from '../../action-creators'
 import { StateContext } from '../WithState/WithState'
 
 const { Provider, Consumer } = createContext({})
@@ -33,6 +33,10 @@ export class ActionsProvider extends PureComponent {
 
     client.on(types.UPDATE_PLAYERS, ({ players }) => {
       this.context.dispatch(updatePlayers(players))
+    })
+
+    client.on(types.UPDATE_STATE, (newState) => {
+      this.context.dispatch(updateState(newState))
     })
 
     client.on(types.SESSION_STARTED, () => {

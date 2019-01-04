@@ -27,7 +27,7 @@ export const Lobby = compose(
 
         <ul>
           {players.map((player: Player) => (
-            <div key={player.id}>{player.playerName}</div>
+            <li key={player.id}>{player.playerName}</li>
           ))}
         </ul>
       </section>

@@ -14,6 +14,8 @@ export const Poker = compose(
   memo,
   withState,
 )((props: Props) => {
+  if (!props.player || !props.player.id) return <Redirect noThrow to="/" />
+
   const { fibonacci, misc } = cards
 
   return (

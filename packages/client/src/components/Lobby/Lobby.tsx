@@ -15,7 +15,7 @@ export const Lobby = compose(
   withState,
 )(
   ({ player, players }: Props): React.ReactElement<Props> => {
-    if (!player || !player.id) return <Redirect noThrow to="/start" />
+    if (!player || !player.id) return <Redirect noThrow to="/" />
 
     return (
       <section>

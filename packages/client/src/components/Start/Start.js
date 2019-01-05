@@ -1,7 +1,7 @@
 import React, { memo, Fragment } from 'react'
 import { redirectTo, Redirect } from '@reach/router'
 import { compose } from '../../helpers'
-import { updateField, roomCreated } from '../../action-creators'
+import { updateField, roomCreated } from '../../actions'
 import { withState } from '../WithState/WithState'
 import { Actions } from '../WithActions/WithActions'
 

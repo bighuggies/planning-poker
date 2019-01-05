@@ -1,13 +1,16 @@
 import React, { memo, ButtonHTMLAttributes } from 'react'
 import { compose } from '../../helpers'
 import { cards } from '../../constants'
+import { Player, Choices } from '../../interfaces'
 import { withState } from '../WithState/WithState'
 import { Actions } from '../WithActions/WithActions'
 
 interface Props {
+  player: Player
+  players: Player[]
   hasChosen: boolean
   isWaiting: boolean
-  choices: any[]
+  choices: Choices
 }
 
 export const Poker = compose(

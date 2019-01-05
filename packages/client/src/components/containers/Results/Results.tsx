@@ -1,6 +1,6 @@
 import React, { memo, Fragment } from 'react'
 import { Player, Choices } from '../../../interfaces'
-import { Actions } from '../../WithActions/WithActions'
+import { Actions } from '../../utils/WithActions/WithActions'
 
 interface Props {
   player: Player

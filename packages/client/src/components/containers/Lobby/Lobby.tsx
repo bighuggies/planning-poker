@@ -2,8 +2,8 @@ import React, { memo } from 'react'
 import { Redirect } from '@reach/router'
 import { compose } from '../../../helpers'
 import { Player } from '../../../interfaces'
-import { withState } from '../../WithState/WithState'
-import { Actions } from '../../WithActions/WithActions'
+import { withState } from '../../utils/WithState/WithState'
+import { Actions } from '../../utils/WithActions/WithActions'
 
 interface Props {
   player: Player

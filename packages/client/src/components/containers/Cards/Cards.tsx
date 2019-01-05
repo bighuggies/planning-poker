@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { partial } from '../../../helpers'
 import { cards } from '../../../constants'
-import { Actions } from '../../WithActions/WithActions'
+import { Actions } from '../../utils/WithActions/WithActions'
 
 export const Cards = memo(() => (
   <Actions>

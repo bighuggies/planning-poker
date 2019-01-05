@@ -1,7 +1,7 @@
 import React from 'react'
 import { Redirect } from '@reach/router'
 import { Player, Choices } from '../../../interfaces'
-import { withState } from '../../WithState/WithState'
+import { withState } from '../../utils/WithState/WithState'
 import { Cards } from '../Cards/Cards'
 import { Waiting } from '../Waiting/Waiting'
 import { Results } from '../Results/Results'

@@ -1,10 +1,10 @@
 import React, { memo } from 'react'
 import { Redirect } from '@reach/router'
-import { compose, partial } from '../../helpers'
-import { Player } from '../../interfaces'
-import { updateField } from '../../actions'
-import { withState } from '../WithState/WithState'
-import { Actions } from '../WithActions/WithActions'
+import { compose, partial } from '../../../helpers'
+import { Player } from '../../../interfaces'
+import { updateField } from '../../../actions'
+import { withState } from '../../WithState/WithState'
+import { Actions } from '../../WithActions/WithActions'
 
 interface FieldProps {
   playerName: string

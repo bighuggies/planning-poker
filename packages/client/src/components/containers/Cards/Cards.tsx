@@ -1,15 +1,15 @@
 import React, { memo } from 'react'
-import { partial } from '../../helpers'
-import { cards } from '../../constants'
-import { Actions } from '../WithActions/WithActions'
+import { partial } from '../../../helpers'
+import { cards } from '../../../constants'
+import { Actions } from '../../WithActions/WithActions'
 
 export const Cards = memo(() => (
   <Actions>
     {({ playCard }: any): any => (
       <ul>
         {cards.fibonacci.map((number) => (
-          <li key={number} onClick={partial(playCard, number)}>
-            {number}
+          <li key={number}>
+            <button onClick={partial(playCard, number)}>{number}</button>
           </li>
         ))}
 

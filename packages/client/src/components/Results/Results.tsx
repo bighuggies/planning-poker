@@ -1,12 +1,5 @@
 import React, { memo, Fragment } from 'react'
 import { Player, Choices } from '../../interfaces'
-import {
-  compose,
-  partial,
-  prop,
-  filterIds,
-  getPlayerIdsFromChoices,
-} from '../../helpers'
 import { Actions } from '../WithActions/WithActions'
 
 interface Props {

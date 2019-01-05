@@ -1,4 +1,4 @@
-import React, { memo, ButtonHTMLAttributes } from 'react'
+import React, { memo } from 'react'
 import { Redirect } from '@reach/router'
 import { compose } from '../../helpers'
 import { Player } from '../../interfaces'

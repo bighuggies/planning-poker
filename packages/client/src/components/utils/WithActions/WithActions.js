@@ -1,8 +1,8 @@
 import React, { createContext, PureComponent } from 'react'
 import { navigate } from '@reach/router'
-import { client } from '../../socket'
-import { types } from '../../types'
-import * as actions from '../../actions'
+import { client } from '../../../socket'
+import { types } from '../../../types'
+import * as actions from '../../../actions'
 import { StateContext } from '../WithState/WithState'
 
 const { Provider, Consumer } = createContext({})

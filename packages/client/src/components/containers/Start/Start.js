@@ -1,9 +1,9 @@
 import React, { memo, Fragment } from 'react'
 import { redirectTo, Redirect } from '@reach/router'
-import { compose } from '../../helpers'
-import { updateField, roomCreated } from '../../actions'
-import { withState } from '../WithState/WithState'
-import { Actions } from '../WithActions/WithActions'
+import { compose } from '../../../helpers'
+import { updateField, roomCreated } from '../../../actions'
+import { withState } from '../../utils/WithState/WithState'
+import { Actions } from '../../utils/WithActions/WithActions'
 
 const isDisabled = (roomId) => roomId.length !== 3
 

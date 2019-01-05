@@ -1,5 +1,5 @@
 import React, { createContext, PureComponent } from 'react'
-import { reducers } from '../../reducers'
+import { reducers } from '../../../reducers'
 
 export const StateContext = createContext()
 

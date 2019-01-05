@@ -65,7 +65,10 @@ export const Poker = compose(
 
       { props.hasChosen && !props.isWaiting && (
         Object.keys(props.choices).length === 1 ? (
-          <div>Alignment!</div>
+          <Fragment>
+            <h2>The team has reached align-tenment! 🥳</h2>
+            <span>{Object.keys(props.choices).reduce((value, cardId) => cardId)}</span>
+          </Fragment>
         ) : (
           <Fragment>
             <h2>Choices</h2>

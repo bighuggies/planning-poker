@@ -3,7 +3,12 @@ const { createStore } = require('redux')
 const types = require('./types')
 const actions = require('./actions')
 const { reducers } = require('./reducers')
-const { createRoomId, createPlayerId } = require('./helpers')
+const {
+  createRoomId,
+  createPlayerId,
+  countPlayers,
+  countChoices,
+} = require('./helpers')
 
 const store = createStore(reducers)
 const io = new Server(8000, { origins: '*:3000' })
@@ -21,22 +26,36 @@ io.on('connect', (socket) => {
   })
 
   socket.on(types.JOIN_ROOM, ({ roomId, playerName }) => {
-    const existingPlayers = Object.keys(store.getState()[roomId].players)
+    const players = store.getState()[roomId].players
+    const playerIds = Object.keys(players || {})
 
     socket.join(roomId)
     socket.roomId = roomId
     socket.actions = actions(roomId)
-    socket.playerId = createPlayerId(existingPlayers)
+    socket.playerId = createPlayerId(playerIds)
     store.dispatch(socket.actions.joinRoom(socket.playerId, playerName))
 
-    const players = store.getState()[roomId].players
-
-    io.to(roomId).emit(types.UPDATE_PLAYERS, { players: Object.values(players) })
-    socket.emit(types.ROOM_JOINED, { player: players[socket.playerId] })
+    const updatedPlayers = store.getState()[roomId].players
+    
+    io.to(roomId).emit(types.UPDATE_PLAYERS, { players: Object.values(updatedPlayers) })
+    socket.emit(types.ROOM_JOINED, { player: updatedPlayers[socket.playerId] })
   })
 
   socket.on(types.START_SESSION, () => {
     io.to(socket.roomId).emit(types.SESSION_STARTED)
+  })
+
+  socket.on(types.PLAY_CARD, ({ cardId }) => {
+    store.dispatch(socket.actions.playCard(socket.playerId, cardId))
+    socket.emit(types.UPDATE_STATE, { hasChosen: true, isWaiting: true })
+
+    const { players, choices } = store.getState()[socket.roomId]
+    
+    io.to(socket.roomId).emit(types.UPDATE_CHOICES, { choices })
+    
+    if (countPlayers(players) === countChoices(choices)) {
+      io.to(socket.roomId).emit(types.UPDATE_STATE, { isWaiting: false })
+    }
   })
 
   socket.on('disconnect', () => {

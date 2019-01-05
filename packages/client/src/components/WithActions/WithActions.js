@@ -22,6 +22,10 @@ export class ActionsProvider extends PureComponent {
     client.emit(types.START_SESSION)
   }
 
+  playCard(cardId) {
+    client.emit(types.PLAY_CARD, { cardId })
+  }
+
   componentDidMount() {
     client.on(types.ROOM_CREATED, ({ roomId }) => {
       this.context.dispatch(roomCreated(roomId))
@@ -50,6 +54,7 @@ export class ActionsProvider extends PureComponent {
         createRoom: this.createRoom,
         joinRoom: this.joinRoom,
         startSession: this.startSession,
+        playCard: this.playCard,
       }}>
         { this.props.children }
       </Provider>

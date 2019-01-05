@@ -32,12 +32,13 @@ const actions = (roomId) => ({
 
   /**
    * an action for when a player has chosen a planning poker card.
-   * @param  {string} card card value
+   * @param  {string} playerId player ID
+   * @param  {string} cardId   card ID
    * @return {object}
    */
-  pickCard: (card) => ({
-    type: types.PICK_CARD,
-    payload: { roomId, card },
+  playCard: (playerId, cardId) => ({
+    type: types.PLAY_CARD,
+    payload: { roomId, playerId, cardId },
   }),
 
   /**

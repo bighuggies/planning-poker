@@ -21,15 +21,25 @@ export const Poker = compose(
   return (
     <section>
       { !props.hasChosen && !props.isWaiting && (
-        <ul>
-          {fibonacci.map((number) => (
-            <li key={number}>{number}</li>
-          ))}
+        <Actions>
+          { ({ playCard }: any): any => (
+            <ul>
+              { fibonacci.map((number) => (
+                <li key={number} onClick={partial(playCard, number)}>
+                  {number}
+                </li>
+              )) }
 
-          {Object.entries(misc).map(([key, copy]) => (
-            <li key={key}>{copy}</li>
-          ))}
-        </ul>
+              { Object.entries(misc).map(([ key, copy ]) => (
+                <li key={key}>
+                  <button onClick={partial(playCard, key)}>
+                    {copy}
+                  </button>
+                </li>
+              )) }
+            </ul>
+          ) }
+        </Actions>
       ) }
 
       { props.hasChosen && props.isWaiting && (
@@ -47,7 +57,7 @@ export const Poker = compose(
           <div>Alignment!</div>
         ) : (
           <div>Choices</div>
-        ) 
+        )
       ) }
     </section>
   )

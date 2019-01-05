@@ -2,7 +2,7 @@ import React, { createContext, PureComponent } from 'react'
 import { navigate } from '@reach/router'
 import { client } from '../../socket'
 import { types } from '../../types'
-import { roomCreated, roomJoined, updatePlayers, updateState } from '../../action-creators'
+import * as actions from '../../action-creators'
 import { StateContext } from '../WithState/WithState'
 
 const { Provider, Consumer } = createContext({})
@@ -28,19 +28,23 @@ export class ActionsProvider extends PureComponent {
 
   componentDidMount() {
     client.on(types.ROOM_CREATED, ({ roomId }) => {
-      this.context.dispatch(roomCreated(roomId))
+      this.context.dispatch(actions.roomCreated(roomId))
     })
 
     client.on(types.ROOM_JOINED, ({ player }) => {
-      this.context.dispatch(roomJoined(player))
-    })
-
-    client.on(types.UPDATE_PLAYERS, ({ players }) => {
-      this.context.dispatch(updatePlayers(players))
+      this.context.dispatch(actions.roomJoined(player))
     })
 
     client.on(types.UPDATE_STATE, (newState) => {
-      this.context.dispatch(updateState(newState))
+      this.context.dispatch(actions.updateState(newState))
+    })
+
+    client.on(types.UPDATE_PLAYERS, ({ players }) => {
+      this.context.dispatch(actions.updatePlayers(players))
+    })
+
+    client.on(types.UPDATE_CHOICES, ({ choices }) => {
+      this.context.dispatch(actions.updateChoices(choices))
     })
 
     client.on(types.SESSION_STARTED, () => {

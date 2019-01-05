@@ -22,6 +22,9 @@ export const reducers = (state, action) => {
     case types.UPDATE_PLAYERS:
       return { players: action.payload }
 
+    case types.UPDATE_CHOICES:
+      return { choices: action.payload }
+
     default:
       return state
   }

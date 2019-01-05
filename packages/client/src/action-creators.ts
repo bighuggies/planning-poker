@@ -31,6 +31,11 @@ export const updatePlayers = (players: Player[]): Action => ({
   payload: players,
 })
 
+export const updateChoices = (choices: any[]): Action => ({
+  type: types.UPDATE_CHOICES,
+  payload: choices,
+})
+
 export const updateState = (newState: any): Action => ({
   type: types.UPDATE_STATE,
   payload: newState,

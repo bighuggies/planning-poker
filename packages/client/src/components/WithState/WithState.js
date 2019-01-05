@@ -10,7 +10,7 @@ export class StateProvider extends PureComponent {
     roomId: 0,
     player: {},
     players: [],
-    choices: [],
+    choices: {},
     fields: {
       roomId: '',
       playerName: '',

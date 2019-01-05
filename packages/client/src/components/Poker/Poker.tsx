@@ -64,10 +64,27 @@ export const Poker = compose(
       ) }
 
       { props.hasChosen && !props.isWaiting && (
-        props.choices.length === 1 ? (
+        Object.keys(props.choices).length === 1 ? (
           <div>Alignment!</div>
         ) : (
-          <div>Choices</div>
+          <Fragment>
+            <h2>Choices</h2>
+            <ul>
+              {Object.keys(props.choices).map((cardId) => (
+                <li key={cardId}>
+                  <span>{cardId}</span>
+                  
+                  <div>
+                    { props.choices[cardId].map((playerId) => {
+                      const { playerName } = props.players.find((player) => player.id === playerId)!
+
+                      return <span key={playerId}>{ playerName }</span>
+                    }) }
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </Fragment>
         )
       ) }
     </section>

@@ -17,5 +17,5 @@ export const getPlayerIdsFromChoices = (choices: Choices): string[] => {
 }
 
 export const filterIds = (allIds: string[], filterIds: string[]): string[] => {
-  return allIds.filter((id: string) => filterIds.find((filteredId): boolean => filteredId !== id))
+  return allIds.filter((id: string) => !filterIds.includes(id))
 }

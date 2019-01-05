@@ -1,5 +1,6 @@
-import React, { memo, ButtonHTMLAttributes } from 'react'
-import { compose } from '../../helpers'
+import React, { memo, Fragment } from 'react'
+import { Redirect } from '@reach/router'
+import { compose, partial, prop, getPlayerIdsFromChoices, filterIds } from '../../helpers'
 import { cards } from '../../constants'
 import { Player, Choices } from '../../interfaces'
 import { withState } from '../WithState/WithState'
@@ -50,7 +51,14 @@ export const Poker = compose(
           <p>Waiting on the following people to choose a card.</p>
 
           <ul>
-            {}
+            { compose(
+                partial(filterIds, prop(props.players, 'id')),
+                getPlayerIdsFromChoices,
+            )(props.choices).map((playerId: string) => {
+              const { playerName } = props.players.find((player) => player.id === playerId)!
+
+              return <span key={playerId}>{playerName}</span>
+            }) }
           </ul>
         </div>
       ) }

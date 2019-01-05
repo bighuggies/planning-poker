@@ -14,16 +14,22 @@ interface Props {
   choices: Choices
 }
 
-export const Poker = withState(({ player, players, choices, hasChosen, isWaiting }: Props) => {
-  if (!player || !player.id) return <Redirect noThrow to="/" />
+export const Poker = withState(
+  ({ player, players, choices, hasChosen, isWaiting }: Props) => {
+    if (!player || !player.id) return <Redirect noThrow to="/" />
 
-  return (
-    <section>
-      {(() => {
-        if (!hasChosen && !isWaiting) return <Cards />
-        if (hasChosen && isWaiting) return <Waiting players={players} choices={choices} />
-        if (hasChosen && !isWaiting) return <Results players={players} choices={choices} />
-      })()}
-    </section>
-  )
-})
+    return (
+      <section>
+        {(() => {
+          if (!hasChosen && !isWaiting) return <Cards />
+          if (hasChosen && isWaiting)
+            return <Waiting players={players} choices={choices} />
+          if (hasChosen && !isWaiting)
+            return (
+              <Results player={player} players={players} choices={choices} />
+            )
+        })()}
+      </section>
+    )
+  },
+)

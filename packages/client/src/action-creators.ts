@@ -40,3 +40,8 @@ export const updateState = (newState: any): Action => ({
   type: types.UPDATE_STATE,
   payload: newState,
 })
+
+export const startRound = (choices: any[], hasChosen: boolean): Action => ({
+  type: types.START_ROUND,
+  payload: { choices, hasChosen },
+})

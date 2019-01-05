@@ -10,11 +10,12 @@ import {
 import { Actions } from '../WithActions/WithActions'
 
 interface Props {
+  player: Player
   players: Player[]
   choices: Choices
 }
 
-export const Results = memo(({ players, choices }: Props) => {
+export const Results = memo(({ player, players, choices }: Props) => {
   const cardIds = Object.keys(choices)
 
   return (
@@ -47,9 +48,11 @@ export const Results = memo(({ players, choices }: Props) => {
         </Fragment>
       )}
 
-      <Actions>
-        {({ newRound }: any) => <button onClick={newRound}>New round</button>}
-      </Actions>
+      { player.host && (
+        <Actions>
+          {({ newRound }: any) => <button onClick={newRound}>New round</button>}
+        </Actions>
+      ) }
     </div>
   )
 })

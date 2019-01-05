@@ -2,7 +2,8 @@ const {
   CREATE_ROOM,
   REMOVE_ROOM,
   JOIN_ROOM,
-  PLAY_CARD
+  PLAY_CARD,
+  NEW_ROUND,
 } = require('./types')
 const {
   countPlayers,
@@ -55,6 +56,18 @@ const rootReducers = (state = {}, action) => {
           [roomId]: {
             ...state[roomId],
             choices: choices(state[roomId].choices, action)
+          }
+        }
+      }
+
+    case NEW_ROUND:
+      {
+        const roomId = action.payload.roomId
+        return {
+          ...state,
+          [roomId]: {
+            ...state[roomId],
+            choices: {},
           }
         }
       }

@@ -58,6 +58,17 @@ io.on('connect', (socket) => {
     }
   })
 
+  socket.on(types.NEW_ROUND, () => {
+    store.dispatch(socket.actions.newRound())
+
+    const choices = store.getState()[socket.roomId].choices
+    
+    io.to(socket.roomId).emit(types.START_ROUND, { 
+      choices,
+      hasChosen: false,
+    })
+  })
+
   socket.on('disconnect', () => {
     if (socket.roomId) store.dispatch(socket.actions.removeRoom())
   })

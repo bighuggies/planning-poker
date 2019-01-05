@@ -25,6 +25,12 @@ export const reducers = (state, action) => {
     case types.UPDATE_CHOICES:
       return { choices: action.payload }
 
+    case types.START_ROUND:
+      return {
+        choices: action.payload.choices, 
+        hasChosen: action.payload.hasChosen,
+      }
+
     default:
       return state
   }

@@ -18,15 +18,23 @@ export class ActionsProvider extends PureComponent {
     client.emit(types.JOIN_ROOM, { roomId, playerName })
   }
 
-  startSession() {
-    client.emit(types.START_SESSION)
-  }
-
   playCard(cardId) {
     client.emit(types.PLAY_CARD, { cardId })
   }
 
+  startSession() {
+    client.emit(types.START_SESSION)
+  }
+
+  newRound() {
+    client.emit(types.NEW_ROUND)
+  }
+
   componentDidMount() {
+    client.on(types.SESSION_STARTED, () => {
+      navigate('/poker')
+    })
+
     client.on(types.ROOM_CREATED, ({ roomId }) => {
       this.context.dispatch(actions.roomCreated(roomId))
     })
@@ -47,8 +55,8 @@ export class ActionsProvider extends PureComponent {
       this.context.dispatch(actions.updateChoices(choices))
     })
 
-    client.on(types.SESSION_STARTED, () => {
-      navigate('/poker')
+    client.on(types.START_ROUND, ({ choices, hasChosen }) => {
+      this.context.dispatch(actions.startRound(choices, hasChosen))
     })
   }
 
@@ -59,6 +67,7 @@ export class ActionsProvider extends PureComponent {
         joinRoom: this.joinRoom,
         startSession: this.startSession,
         playCard: this.playCard,
+        newRound: this.newRound,
       }}>
         { this.props.children }
       </Provider>

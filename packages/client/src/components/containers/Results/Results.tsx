@@ -1,15 +1,15 @@
-import React, { memo, Fragment } from 'react'
-import { Player, Choices } from '../../../interfaces'
-import { Actions } from '../../utils/WithActions/WithActions'
+import React, { memo, Fragment } from "react";
+import { Player, Choices } from "../../../interfaces";
+import { Actions } from "../../utils/WithActions/WithActions";
 
 interface Props {
-  player: Player
-  players: Player[]
-  choices: Choices
+  player: Player;
+  players: Player[];
+  choices: Choices;
 }
 
 export const Results = memo(({ player, players, choices }: Props) => {
-  const cardIds = Object.keys(choices)
+  const cardIds = Object.keys(choices);
 
   return (
     <div>
@@ -22,17 +22,17 @@ export const Results = memo(({ player, players, choices }: Props) => {
         <Fragment>
           <h2>Choices</h2>
           <ul>
-            {cardIds.map((cardId) => (
+            {cardIds.map(cardId => (
               <li key={cardId}>
                 <span>{cardId}</span>
 
                 <div>
-                  {choices[cardId].map((playerId) => {
+                  {choices[cardId].map(playerId => {
                     const { playerName } = players.find(
-                      (player) => player.id === playerId,
-                    )!
+                      player => player.id === playerId
+                    )!;
 
-                    return <span key={playerId}>{playerName}</span>
+                    return <span key={playerId}>{playerName}</span>;
                   })}
                 </div>
               </li>
@@ -41,11 +41,11 @@ export const Results = memo(({ player, players, choices }: Props) => {
         </Fragment>
       )}
 
-      { player.host && (
+      {player.host && (
         <Actions>
           {({ newRound }: any) => <button onClick={newRound}>New round</button>}
         </Actions>
-      ) }
+      )}
     </div>
-  )
-})
+  );
+});

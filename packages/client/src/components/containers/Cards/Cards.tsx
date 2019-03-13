@@ -1,24 +1,23 @@
-import React, { memo } from 'react'
-import { partial } from '../../../helpers'
-import { cards } from '../../../constants'
-import { Actions } from '../../utils/WithActions/WithActions'
+import React, { memo } from "react";
+import { cards } from "../../../constants";
+import { Actions } from "../../utils/WithActions/WithActions";
 
-export const Cards = memo(() => (
+export const Cards: React.FunctionComponent = memo(() => (
   <Actions>
     {({ playCard }: any): any => (
       <ul>
-        {cards.fibonacci.map((number) => (
+        {cards.fibonacci.map(number => (
           <li key={number}>
-            <button onClick={partial(playCard, number)}>{number}</button>
+            <button onClick={() => playCard(number)}>{number}</button>
           </li>
         ))}
 
         {Object.entries(cards.misc).map(([key, copy]) => (
           <li key={key}>
-            <button onClick={partial(playCard, key)}>{copy}</button>
+            <button onClick={() => playCard(key)}>{copy}</button>
           </li>
         ))}
       </ul>
     )}
   </Actions>
-))
+));

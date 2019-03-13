@@ -1,47 +1,47 @@
-import { types } from './types'
+import { types } from "./types";
+import { Choices, Player } from "./interfaces";
+import { AppState } from "./components/utils/WithState/WithState";
 
-interface Action {
-  type: string,
-  payload?: any,
-}
+export const updateField = (field: string, value: string) => ({
+  type: types.UPDATE_FIELD as types.UPDATE_FIELD,
+  payload: { field, value }
+});
 
-interface Player {
-  id: string,
-  host: boolean,
-  name: string,
-}
+export const roomCreated = (roomId: number) => ({
+  type: types.ROOM_CREATED as types.ROOM_CREATED,
+  payload: roomId
+});
 
-export const updateField = (field: string, value: string): Action => ({
-  type: types.UPDATE_FIELD,
-  payload: { field, value },
-})
+export const roomJoined = (player: Player) => ({
+  type: types.ROOM_JOINED as types.ROOM_JOINED,
+  payload: player
+});
 
-export const roomCreated = (roomId: number): Action => ({
-  type: types.ROOM_CREATED,
-  payload: roomId,
-})
+export const updatePlayers = (players: Player[]) => ({
+  type: types.UPDATE_PLAYERS as types.UPDATE_PLAYERS,
+  payload: players
+});
 
-export const roomJoined = (player: Player): Action => ({
-  type: types.ROOM_JOINED,
-  payload: player,
-})
+export const updateChoices = (choices: Choices[]) => ({
+  type: types.UPDATE_CHOICES as types.UPDATE_CHOICES,
+  payload: choices
+});
 
-export const updatePlayers = (players: Player[]): Action => ({
-  type: types.UPDATE_PLAYERS,
-  payload: players,
-})
+export const updateState = (newState: Partial<AppState>) => ({
+  type: types.UPDATE_STATE as types.UPDATE_STATE,
+  payload: newState
+});
 
-export const updateChoices = (choices: any[]): Action => ({
-  type: types.UPDATE_CHOICES,
-  payload: choices,
-})
+export const startRound = (choices: any[], hasChosen: boolean) => ({
+  type: types.START_ROUND as types.START_ROUND,
+  payload: { choices, hasChosen }
+});
 
-export const updateState = (newState: any): Action => ({
-  type: types.UPDATE_STATE,
-  payload: newState,
-})
-
-export const startRound = (choices: any[], hasChosen: boolean): Action => ({
-  type: types.START_ROUND,
-  payload: { choices, hasChosen },
-})
+export type Actions =
+  | ReturnType<typeof updateField>
+  | ReturnType<typeof roomCreated>
+  | ReturnType<typeof roomJoined>
+  | ReturnType<typeof updatePlayers>
+  | ReturnType<typeof updateChoices>
+  | ReturnType<typeof updateState>
+  | ReturnType<typeof startRound>;

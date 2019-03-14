@@ -14,11 +14,8 @@ COPY lerna.json /home/app/
 COPY packages/client/package.json /home/app/packages/client/
 COPY packages/client/yarn.lock /home/app/packages/client/
 
-COPY packages/common/package.json /home/app/packages/common/
-COPY packages/common/yarn.lock /home/app/packages/common/
-
 RUN yarn install --frozen-lockfile --production --no-optional
-RUN npx lerna bootstrap --hoist --ignore-scripts -- --production --no-optional
+RUN npx lerna bootstrap --ignore-scripts -- --production --no-optional
 
 # Build
 

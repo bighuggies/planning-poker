@@ -1,19 +1,19 @@
-const Server = require('socket.io')
-const { createStore } = require('redux')
-const types = require('./types')
-const actions = require('./actions')
-const { reducers } = require('./reducers')
-const {
+import * as Server from "socket.io";
+import { createStore } from "redux";
+import * as types from "./types";
+import { actions } from "./actions";
+import { reducers } from "./reducers";
+import {
   createRoomId,
   createPlayerId,
   countPlayers,
-  countChoices,
-} = require('./helpers')
+  countChoices
+} from "./helpers";
 
 const store = createStore(reducers)
-const io = new Server(8000, { origins: '*:3000' })
+const io = Server(8000, { origins: '*:3000' })
 
-io.on('connect', (socket) => {
+io.on('connect', (socket: Server.Socket & { [key: string]: any }) => {
   socket.on(types.CREATE_ROOM, () => {
     const roomIds = Object.keys(store.getState())
     const roomId = createRoomId(roomIds)

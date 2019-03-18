@@ -1,5 +1,5 @@
 import { Redirect, redirectTo, RouteComponentProps } from "@reach/router";
-import React, { Fragment, memo } from "react";
+import React, { memo } from "react";
 
 import { roomCreated, updateField } from "../../../actions";
 import { Actions } from "../../utils/WithActions/WithActions";

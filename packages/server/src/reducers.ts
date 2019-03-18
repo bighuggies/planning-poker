@@ -1,19 +1,13 @@
-const {
+import {
   CREATE_ROOM,
   REMOVE_ROOM,
   JOIN_ROOM,
   PLAY_CARD,
-  NEW_ROUND,
-} = require('./types')
-const {
-  countPlayers,
-} = require('./helpers')
-const {
-  players
-} = require('./reducers/players')
-const {
-  choices
-} = require('./reducers/choices')
+  NEW_ROUND
+} from "./types";
+import { countPlayers } from "./helpers";
+import { players } from "./reducers/players";
+import { choices } from "./reducers/choices";
 
 const rootReducers = (state = {}, action) => {
   switch (action.type) {
@@ -77,6 +71,6 @@ const rootReducers = (state = {}, action) => {
   }
 }
 
-module.exports = {
-  reducers: rootReducers
+export {
+  rootReducers as reducers
 }

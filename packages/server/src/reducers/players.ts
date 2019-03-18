@@ -1,4 +1,4 @@
-const { JOIN_ROOM } = require('../types')
+import { JOIN_ROOM } from "../types";
 
 const newPlayer = (id, isHost, state = {
   id,
@@ -26,4 +26,4 @@ const players = (state = {}, action) => {
   }
 }
 
-module.exports = { players }
+export { players };

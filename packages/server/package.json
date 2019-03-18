@@ -6,13 +6,16 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "nodemon src/server.js"
+    "start": "ts-node-dev src/server.ts",
+    "build": "rm -r ./lib && tsc"
   },
   "dependencies": {
     "redux": "^4.0.1",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.10"
+    "@types/socket.io": "^2.1.2",
+    "ts-node-dev": "^1.0.0-pre.32",
+    "typescript": "^3.3.3333"
   }
 }

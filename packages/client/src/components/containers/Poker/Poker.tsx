@@ -27,6 +27,8 @@ const Poker: React.FunctionComponent<WithStateProps & RouteComponentProps> = ({
             <Results player={player} players={players} choices={choices} />
           );
         }
+
+        return null;
       })()}
     </section>
   );

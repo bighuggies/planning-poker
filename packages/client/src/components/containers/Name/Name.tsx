@@ -17,7 +17,7 @@ const Name: React.FunctionComponent<
     event: React.FormEvent<HTMLInputElement>
   ): void => {
     const value = event.currentTarget.value;
-    props.dispatch(updateField("playerName", value));
+    dispatch(updateField("playerName", value));
   };
 
   return (

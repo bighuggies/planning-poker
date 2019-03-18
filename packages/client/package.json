@@ -2,26 +2,32 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@reach/router": "^1.2.1",
-    "@types/jest": "23.3.10",
-    "@types/node": "10.12.18",
-    "@types/reach__router": "^1.2.2",
-    "@types/react": "16.7.18",
-    "@types/react-dom": "16.0.11",
-    "@types/socket.io-client": "^1.4.32",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "react-scripts": "2.1.2",
-    "socket.io-client": "^2.2.0",
-    "typescript": "3.2.2"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "tslint -p tsconfig.json \"src/**/*.{ts,tsx}\" --fix"
+  },
+  "dependencies": {
+    "@reach/router": "^1.2.1",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-scripts": "2.1.8",
+    "socket.io-client": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.11",
+    "@types/node": "^11.11.3",
+    "@types/reach__router": "^1.2.3",
+    "@types/react": "^16.8.8",
+    "@types/react-dom": "^16.8.2",
+    "@types/socket.io-client": "^1.4.32",
+    "tslint": "^5.14.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.3.3333"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -31,11 +37,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "devDependencies": {
-    "tslint": "^5.14.0",
-    "tslint-config-airbnb": "^5.11.1",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-react": "^3.6.0"
-  }
+  ]
 }

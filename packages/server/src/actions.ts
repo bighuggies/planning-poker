@@ -1,13 +1,13 @@
-const types = require('./types')
+import * as types from "./types";
 
-const actions = (roomId) => ({
+export const actions = roomId => ({
   /**
    * create room action for making a unique room for you and your team.
    * @return {object}
    */
   createRoom: () => ({
     type: types.CREATE_ROOM,
-    payload: { roomId },
+    payload: { roomId }
   }),
 
   /**
@@ -16,7 +16,7 @@ const actions = (roomId) => ({
    */
   removeRoom: () => ({
     type: types.REMOVE_ROOM,
-    payload: { roomId },
+    payload: { roomId }
   }),
 
   /**
@@ -27,7 +27,7 @@ const actions = (roomId) => ({
    */
   joinRoom: (playerId, playerName) => ({
     type: types.JOIN_ROOM,
-    payload: { roomId, playerId, playerName },
+    payload: { roomId, playerId, playerName }
   }),
 
   /**
@@ -38,7 +38,7 @@ const actions = (roomId) => ({
    */
   playCard: (playerId, cardId) => ({
     type: types.PLAY_CARD,
-    payload: { roomId, playerId, cardId },
+    payload: { roomId, playerId, cardId }
   }),
 
   /**
@@ -47,8 +47,6 @@ const actions = (roomId) => ({
    */
   newRound: () => ({
     type: types.NEW_ROUND,
-    payload: { roomId },
-  }),
-})
-
-module.exports = actions
+    payload: { roomId }
+  })
+});

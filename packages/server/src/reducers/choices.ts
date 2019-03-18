@@ -1,6 +1,4 @@
-const {
-  PLAY_CARD
-} = require('../types')
+import { PLAY_CARD } from "../types";
 
 const newChoice = (state = [], action) => {
   switch (action.type) {
@@ -25,6 +23,4 @@ const choices = (state = {}, action) => {
   }
 }
 
-module.exports = {
-  choices
-}
+export { choices };

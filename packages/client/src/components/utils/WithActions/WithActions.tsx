@@ -1,10 +1,11 @@
-import React, { createContext, PureComponent } from "react";
 import { navigate } from "@reach/router";
+import React, { createContext, PureComponent } from "react";
+
+import * as actions from "../../../actions";
+import { Choices, Player } from "../../../interfaces";
 import { client } from "../../../socket";
 import { types } from "../../../types";
-import * as actions from "../../../actions";
-import { StateContext, AppState } from "../WithState/WithState";
-import { Player, Choices } from "../../../interfaces";
+import { AppState, StateContext } from "../WithState/WithState";
 
 const actionEmitter = {
   createRoom() {

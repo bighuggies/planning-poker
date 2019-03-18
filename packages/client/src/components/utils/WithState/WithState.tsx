@@ -1,7 +1,8 @@
 import React, { createContext, PureComponent } from "react";
-import { reducers } from "../../../reducers";
+
 import { Actions } from "../../../actions";
-import { Player, Choices } from "../../../interfaces";
+import { Choices, Player } from "../../../interfaces";
+import { reducers } from "../../../reducers";
 
 const initialState = {
   hasChosen: false,

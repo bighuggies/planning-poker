@@ -1,16 +1,17 @@
-import React, { memo } from "react";
 import { Redirect, RouteComponentProps } from "@reach/router";
+import React, { memo } from "react";
+
 import { updateField } from "../../../actions";
-import { withState, WithStateProps } from "../../utils/WithState/WithState";
 import { Actions } from "../../utils/WithActions/WithActions";
+import { withState, WithStateProps } from "../../utils/WithState/WithState";
 
 const isDisabled = (playerName: string) => playerName.length <= 2;
 
 const Name: React.FunctionComponent<
   WithStateProps & RouteComponentProps
 > = props => {
-  if (props.roomId === 0) return <Redirect noThrow to="/" />;
-  if (props.player && props.player.id) return <Redirect noThrow to="/lobby" />;
+  if (props.roomId === 0) return <Redirect noThrow={true} to="/" />;
+  if (props.player && props.player.id) return <Redirect noThrow={true} to="/lobby" />;
 
   const changeHandler = (dispatch: Function) => (
     event: React.FormEvent<HTMLInputElement>

@@ -1,15 +1,16 @@
-import React, { memo, Fragment } from "react";
-import { redirectTo, Redirect, RouteComponentProps } from "@reach/router";
-import { withState, WithStateProps } from "../../utils/WithState/WithState";
+import { Redirect, redirectTo, RouteComponentProps } from "@reach/router";
+import React, { Fragment, memo } from "react";
+
+import { roomCreated, updateField } from "../../../actions";
 import { Actions } from "../../utils/WithActions/WithActions";
-import { updateField, roomCreated } from "../../../actions";
+import { withState, WithStateProps } from "../../utils/WithState/WithState";
 
 const isDisabled = (roomId: string) => roomId.length !== 3;
 
 const Start: React.FunctionComponent<
   WithStateProps & RouteComponentProps
 > = props => {
-  if (props.roomId !== 0) return <Redirect noThrow to="/name" />;
+  if (props.roomId !== 0) return <Redirect noThrow={true} to="/name" />;
 
   const changeHandler: React.ChangeEventHandler<HTMLInputElement> = event => {
     const value = event.target.value;

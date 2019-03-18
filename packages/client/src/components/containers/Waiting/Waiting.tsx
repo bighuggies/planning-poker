@@ -1,6 +1,7 @@
 import React, { memo } from "react";
-import { Player, Choices } from "../../../interfaces";
-import { prop, filterIds, getPlayerIdsFromChoices } from "../../../helpers";
+
+import { filterIds, getPlayerIdsFromChoices, prop } from "../../../helpers";
+import { Choices, Player } from "../../../interfaces";
 
 interface Props {
   players: Player[];

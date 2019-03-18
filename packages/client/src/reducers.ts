@@ -1,6 +1,6 @@
-import { types } from "./types";
-import { AppState } from "./components/utils/WithState/WithState";
 import { Actions } from "./actions";
+import { AppState } from "./components/utils/WithState/WithState";
+import { types } from "./types";
 
 export const reducers = (state: AppState, action: Actions) => {
   switch (action.type) {

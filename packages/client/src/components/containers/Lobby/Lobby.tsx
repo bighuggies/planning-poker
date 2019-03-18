@@ -1,14 +1,15 @@
-import React, { memo } from "react";
 import { Redirect, RouteComponentProps } from "@reach/router";
+import React, { memo } from "react";
+
 import { Player } from "../../../interfaces";
-import { withState, WithStateProps } from "../../utils/WithState/WithState";
 import { Actions } from "../../utils/WithActions/WithActions";
+import { withState, WithStateProps } from "../../utils/WithState/WithState";
 
 const Lobby: React.FunctionComponent<WithStateProps & RouteComponentProps> = ({
   player,
   players
 }) => {
-  if (!player || !player.id) return <Redirect noThrow to="/" />;
+  if (!player || !player.id) return <Redirect noThrow={true} to="/" />;
 
   return (
     <section>

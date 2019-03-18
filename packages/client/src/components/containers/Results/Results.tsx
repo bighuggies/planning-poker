@@ -1,5 +1,6 @@
-import React, { memo, Fragment } from "react";
-import { Player, Choices } from "../../../interfaces";
+import React, { Fragment, memo } from "react";
+
+import { Choices, Player } from "../../../interfaces";
 import { Actions } from "../../utils/WithActions/WithActions";
 
 interface Props {

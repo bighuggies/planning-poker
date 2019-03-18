@@ -1,6 +1,6 @@
-import { types } from "./types";
-import { Choices, Player } from "./interfaces";
 import { AppState } from "./components/utils/WithState/WithState";
+import { Choices, Player } from "./interfaces";
+import { types } from "./types";
 
 export const updateField = (field: string, value: string) => ({
   type: types.UPDATE_FIELD as types.UPDATE_FIELD,

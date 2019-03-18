@@ -1,10 +1,10 @@
-import { Router } from "@reach/router";
-import React, { Component } from "react";
+import { Router } from '@reach/router';
+import React, { Component } from 'react';
 
-import { Lobby } from "../Lobby/Lobby";
-import { Name } from "../Name/Name";
-import { Poker } from "../Poker/Poker";
-import { Start } from "../Start/Start";
+import { Lobby } from '../Lobby/Lobby';
+import { Name } from '../Name/Name';
+import { Poker } from '../Poker/Poker';
+import { Start } from '../Start/Start';
 
 class App extends Component {
   render() {

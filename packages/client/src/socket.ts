@@ -1,3 +1,3 @@
-import io from "socket.io-client";
+import io from 'socket.io-client';
 
-export const client = io.connect("http://localhost:8000");
+export const client = io.connect('http://localhost:8000');

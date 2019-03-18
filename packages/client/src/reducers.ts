@@ -1,6 +1,6 @@
-import { Actions } from "./actions";
-import { AppState } from "./components/utils/WithState/WithState";
-import { types } from "./types";
+import { Actions } from './actions';
+import { AppState } from './components/utils/WithState/WithState';
+import { types } from './types';
 
 export const reducers = (state: AppState, action: Actions) => {
   switch (action.type) {
@@ -14,8 +14,8 @@ export const reducers = (state: AppState, action: Actions) => {
       return {
         fields: {
           ...state.fields,
-          [action.payload.field]: action.payload.value
-        }
+          [action.payload.field]: action.payload.value,
+        },
       };
 
     case types.UPDATE_STATE:
@@ -30,7 +30,7 @@ export const reducers = (state: AppState, action: Actions) => {
     case types.START_ROUND:
       return {
         choices: action.payload.choices,
-        hasChosen: action.payload.hasChosen
+        hasChosen: action.payload.hasChosen,
       };
 
     default:

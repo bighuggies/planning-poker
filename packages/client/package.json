@@ -7,7 +7,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "tslint -p tsconfig.json \"src/**/*.{ts,tsx}\" --fix"
+    "lint": "tslint --fix -p tsconfig.json \"src/**/*.{ts,tsx}\"",
+    "prettier": "prettier --write \"src/**/*.{ts,tsx}\""
   },
   "dependencies": {
     "@reach/router": "^1.2.1",
@@ -23,6 +24,7 @@
     "@types/react": "^16.8.8",
     "@types/react-dom": "^16.8.2",
     "@types/socket.io-client": "^1.4.32",
+    "prettier": "^1.16.4",
     "tslint": "^5.14.0",
     "tslint-config-airbnb": "^5.11.1",
     "tslint-config-prettier": "^1.18.0",

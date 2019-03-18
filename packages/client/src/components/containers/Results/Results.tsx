@@ -1,7 +1,7 @@
-import React, { Fragment, memo } from "react";
+import React, { Fragment, memo } from 'react';
 
-import { Choices, Player } from "../../../interfaces";
-import { Actions } from "../../utils/WithActions/WithActions";
+import { Choices, Player } from '../../../interfaces';
+import { Actions } from '../../utils/WithActions/WithActions';
 
 interface Props {
   player: Player;
@@ -30,7 +30,7 @@ export const Results = memo(({ player, players, choices }: Props) => {
                 <div>
                   {choices[cardId].map(playerId => {
                     const { playerName } = players.find(
-                      player => player.id === playerId
+                      player => player.id === playerId,
                     )!;
 
                     return <span key={playerId}>{playerName}</span>;

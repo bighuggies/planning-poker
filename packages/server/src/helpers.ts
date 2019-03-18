@@ -35,5 +35,5 @@ export {
   countPlayers,
   countChoices,
   createRoomId,
-  createPlayerId
+  createPlayerId,
 };

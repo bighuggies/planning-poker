@@ -1,7 +1,7 @@
-import React, { memo } from "react";
+import React, { memo } from 'react';
 
-import { cards } from "../../../constants";
-import { Actions } from "../../utils/WithActions/WithActions";
+import { cards } from '../../../constants';
+import { Actions } from '../../utils/WithActions/WithActions';
 
 export const Cards: React.FunctionComponent = memo(() => (
   <Actions>

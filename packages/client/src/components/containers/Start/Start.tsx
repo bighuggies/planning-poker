@@ -1,9 +1,9 @@
-import { Redirect, redirectTo, RouteComponentProps } from "@reach/router";
-import React, { memo } from "react";
+import { Redirect, redirectTo, RouteComponentProps } from '@reach/router';
+import React, { memo } from 'react';
 
-import { roomCreated, updateField } from "../../../actions";
-import { Actions } from "../../utils/WithActions/WithActions";
-import { withState, WithStateProps } from "../../utils/WithState/WithState";
+import { roomCreated, updateField } from '../../../actions';
+import { Actions } from '../../utils/WithActions/WithActions';
+import { withState, WithStateProps } from '../../utils/WithState/WithState';
 
 const isDisabled = (roomId: string) => roomId.length !== 3;
 
@@ -14,12 +14,12 @@ const Start: React.FunctionComponent<
 
   const changeHandler: React.ChangeEventHandler<HTMLInputElement> = event => {
     const value = event.target.value;
-    props.dispatch(updateField("roomId", value));
+    props.dispatch(updateField('roomId', value));
   };
 
   const navigateToName = () => {
     props.dispatch(roomCreated(Number(props.fields.roomId)));
-    redirectTo("/name");
+    redirectTo('/name');
   };
 
   return (

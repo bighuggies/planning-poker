@@ -1,11 +1,11 @@
-import { navigate } from "@reach/router";
-import React, { createContext, PureComponent } from "react";
+import { navigate } from '@reach/router';
+import React, { createContext, PureComponent } from 'react';
 
-import * as actions from "../../../actions";
-import { Choices, Player } from "../../../interfaces";
-import { client } from "../../../socket";
-import { types } from "../../../types";
-import { AppState, StateContext } from "../WithState/WithState";
+import * as actions from '../../../actions';
+import { Choices, Player } from '../../../interfaces';
+import { client } from '../../../socket';
+import { types } from '../../../types';
+import { AppState, StateContext } from '../WithState/WithState';
 
 const actionEmitter = {
   createRoom() {
@@ -26,7 +26,7 @@ const actionEmitter = {
 
   newRound() {
     client.emit(types.NEW_ROUND);
-  }
+  },
 };
 const { Provider, Consumer } = createContext(actionEmitter);
 
@@ -35,7 +35,7 @@ export class ActionsProvider extends PureComponent {
 
   componentDidMount() {
     client.on(types.SESSION_STARTED, () => {
-      navigate("/poker");
+      navigate('/poker');
     });
 
     client.on(types.ROOM_CREATED, ({ roomId }: { roomId: number }) => {
@@ -62,7 +62,7 @@ export class ActionsProvider extends PureComponent {
       types.START_ROUND,
       ({ choices, hasChosen }: { choices: Choices[]; hasChosen: boolean }) => {
         this.context.dispatch(actions.startRound(choices, hasChosen));
-      }
+      },
     );
   }
 

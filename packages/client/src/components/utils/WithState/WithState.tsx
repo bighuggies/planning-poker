@@ -1,8 +1,8 @@
-import React, { createContext, PureComponent } from "react";
+import React, { createContext, PureComponent } from 'react';
 
-import { Actions } from "../../../actions";
-import { Choices, Player } from "../../../interfaces";
-import { reducers } from "../../../reducers";
+import { Actions } from '../../../actions';
+import { Choices, Player } from '../../../interfaces';
+import { reducers } from '../../../reducers';
 
 const initialState = {
   hasChosen: false,
@@ -12,9 +12,9 @@ const initialState = {
   players: [] as Player[],
   choices: {} as Choices,
   fields: {
-    roomId: "",
-    playerName: ""
-  }
+    roomId: '',
+    playerName: '',
+  },
 };
 
 export type Dispatch = (action: Actions) => void;
@@ -25,7 +25,7 @@ export const StateContext = createContext<{
   dispatch: Dispatch;
 }>({
   state: initialState,
-  dispatch: () => undefined
+  dispatch: () => undefined,
 });
 
 export class StateProvider extends PureComponent {
@@ -52,7 +52,7 @@ type Omit<T, U> = Pick<T, Exclude<keyof T, U>>;
 export type WithStateProps = AppState & { dispatch: Dispatch };
 
 export const withState = <P extends WithStateProps>(
-  WrappedComponent: React.ComponentType<P>
+  WrappedComponent: React.ComponentType<P>,
 ): React.FunctionComponent<Omit<P, keyof WithStateProps>> => props => (
   <State>
     {({ state, dispatch }) => {

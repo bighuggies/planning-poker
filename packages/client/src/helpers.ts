@@ -1,4 +1,4 @@
-import { Choices } from "./interfaces";
+import { Choices } from './interfaces';
 
 export const prop = (collection: any[], prop: string) => {
   return Object.values(collection).map(item => item[prop]);

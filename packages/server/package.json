@@ -7,7 +7,9 @@
   "private": true,
   "scripts": {
     "start": "ts-node-dev src/server.ts",
-    "build": "rm -r ./lib && tsc"
+    "build": "rm -r ./lib && tsc",
+    "lint": "tslint --fix -p tsconfig.json \"src/**/*.ts\"",
+    "prettier": "prettier --write \"src/**/*.ts\""
   },
   "dependencies": {
     "redux": "^4.0.1",
@@ -15,7 +17,11 @@
   },
   "devDependencies": {
     "@types/socket.io": "^2.1.2",
+    "prettier": "^1.16.4",
     "ts-node-dev": "^1.0.0-pre.32",
+    "tslint": "^5.14.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.3.3333"
   }
 }

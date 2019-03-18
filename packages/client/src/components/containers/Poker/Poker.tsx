@@ -1,17 +1,17 @@
-import { Redirect, RouteComponentProps } from "@reach/router";
-import React from "react";
+import { Redirect, RouteComponentProps } from '@reach/router';
+import React from 'react';
 
-import { withState, WithStateProps } from "../../utils/WithState/WithState";
-import { Cards } from "../Cards/Cards";
-import { Results } from "../Results/Results";
-import { Waiting } from "../Waiting/Waiting";
+import { withState, WithStateProps } from '../../utils/WithState/WithState';
+import { Cards } from '../Cards/Cards';
+import { Results } from '../Results/Results';
+import { Waiting } from '../Waiting/Waiting';
 
 const Poker: React.FunctionComponent<WithStateProps & RouteComponentProps> = ({
   player,
   players,
   choices,
   hasChosen,
-  isWaiting
+  isWaiting,
 }) => {
   if (!player || !player.id) return <Redirect noThrow={true} to="/" />;
 

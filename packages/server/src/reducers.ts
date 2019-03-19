@@ -10,15 +10,15 @@ import {
   REMOVE_ROOM,
 } from './types';
 
-export type Choices = number[];
+export type Choices = number[]; // array of player ids
 export type Player = { id: number; host: boolean; playerName: string };
 export type Room = {
   id: number;
-  players?: { [key: number]: Player };
-  choices?: { [key: string]: Choices };
+  players?: { [playerId: number]: Player };
+  choices?: { [cardId: string]: Choices };
 };
 export type AppState = {
-  [key: number]: Room;
+  [roomId: number]: Room;
 };
 
 const initialState: AppState = {};

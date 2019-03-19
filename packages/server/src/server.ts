@@ -1,5 +1,5 @@
 import { createStore } from 'redux';
-import * as Server from 'socket.io';
+import Server from 'socket.io';
 
 import { actions } from './actions';
 import {
@@ -14,12 +14,18 @@ import * as types from './types';
 const store = createStore(reducers);
 const io = Server(8000, { origins: '*:3000' });
 
-io.on('connect', (socket: Server.Socket & { [key: string]: any }) => {
+type PlanningPokerSocket = Server.Socket & {
+  actions: ReturnType<typeof actions>;
+  roomId: number;
+  playerId: number;
+};
+
+io.on('connect', (socket: PlanningPokerSocket) => {
   socket.on(types.CREATE_ROOM, () => {
     const roomIds = Object.keys(store.getState());
-    const roomId = createRoomId(roomIds);
+    const roomId = createRoomId(roomIds.map(i => parseInt(i, 10)));
 
-    socket.join(roomId);
+    socket.join(roomId.toString());
     socket.roomId = roomId;
     socket.actions = actions(roomId);
     store.dispatch(socket.actions.createRoom());
@@ -33,19 +39,21 @@ io.on('connect', (socket: Server.Socket & { [key: string]: any }) => {
     socket.join(roomId);
     socket.roomId = roomId;
     socket.actions = actions(roomId);
-    socket.playerId = createPlayerId(playerIds);
+    socket.playerId = createPlayerId(playerIds.map(i => parseInt(i, 10)));
     store.dispatch(socket.actions.joinRoom(socket.playerId, playerName));
 
-    const updatedPlayers = store.getState()[roomId].players;
+    const updatedPlayers = store.getState()[roomId].players!;
 
     io.to(roomId).emit(types.UPDATE_PLAYERS, {
       players: Object.values(updatedPlayers),
     });
-    socket.emit(types.ROOM_JOINED, { player: updatedPlayers[socket.playerId] });
+    socket.emit(types.ROOM_JOINED, {
+      player: updatedPlayers[socket.playerId],
+    });
   });
 
   socket.on(types.START_SESSION, () => {
-    io.to(socket.roomId).emit(types.SESSION_STARTED);
+    io.to(socket.roomId.toString()).emit(types.SESSION_STARTED);
   });
 
   socket.on(types.PLAY_CARD, ({ cardId }) => {
@@ -54,10 +62,12 @@ io.on('connect', (socket: Server.Socket & { [key: string]: any }) => {
 
     const { players, choices } = store.getState()[socket.roomId];
 
-    io.to(socket.roomId).emit(types.UPDATE_CHOICES, { choices });
+    io.to(socket.roomId.toString()).emit(types.UPDATE_CHOICES, { choices });
 
     if (countPlayers(players) === countChoices(choices)) {
-      io.to(socket.roomId).emit(types.UPDATE_STATE, { isWaiting: false });
+      io.to(socket.roomId.toString()).emit(types.UPDATE_STATE, {
+        isWaiting: false,
+      });
     }
   });
 
@@ -66,7 +76,7 @@ io.on('connect', (socket: Server.Socket & { [key: string]: any }) => {
 
     const choices = store.getState()[socket.roomId].choices;
 
-    io.to(socket.roomId).emit(types.START_ROUND, {
+    io.to(socket.roomId.toString()).emit(types.START_ROUND, {
       choices,
       hasChosen: false,
     });

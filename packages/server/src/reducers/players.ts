@@ -1,14 +1,16 @@
+import { AllActions } from '../actions';
+import { Room } from '../reducers';
 import { JOIN_ROOM } from '../types';
 
 const newPlayer = (
-  id,
-  isHost,
+  id: number,
+  isHost: boolean,
   state = {
     id,
     host: isHost,
     playerName: '',
   },
-  action,
+  action: AllActions,
 ) => {
   switch (action.type) {
     case JOIN_ROOM:
@@ -19,7 +21,7 @@ const newPlayer = (
   }
 };
 
-const players = (state = {}, action) => {
+const players = (state: Room['players'] = {}, action: AllActions) => {
   switch (action.type) {
     case JOIN_ROOM:
       const id = action.payload.playerId;

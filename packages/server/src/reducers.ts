@@ -1,3 +1,4 @@
+import { AllActions } from './actions';
 import { countPlayers } from './helpers';
 import { choices } from './reducers/choices';
 import { players } from './reducers/players';
@@ -9,7 +10,20 @@ import {
   REMOVE_ROOM,
 } from './types';
 
-const rootReducers = (state = {}, action) => {
+export type Choices = number[];
+export type Player = { id: number; host: boolean; playerName: string };
+export type Room = {
+  id: number;
+  players?: { [key: number]: Player };
+  choices?: { [key: string]: Choices };
+};
+export type AppState = {
+  [key: number]: Room;
+};
+
+const initialState: AppState = {};
+
+const rootReducers = (state = initialState, action: AllActions) => {
   switch (action.type) {
     case CREATE_ROOM: {
       const roomId = action.payload.roomId;

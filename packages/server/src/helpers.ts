@@ -1,32 +1,34 @@
-function flatMap(collection, cb) {
-  return collection.reduce((prev, curr) => prev.concat(cb(curr)), []);
+import { Room } from './reducers';
+
+function flatMap<T, K>(collection: K[], cb: (value: K) => T[]): T[] {
+  return collection.reduce<T[]>((prev, curr) => prev.concat(cb(curr)), []);
 }
 
 function generateId(min = 100, max = 999) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function collectionContainsKey(collection, key) {
+function collectionContainsKey<T>(collection: T[], key: T) {
   return collection.includes(key);
 }
 
-function countPlayers(players = {}) {
+function countPlayers(players: Room['players'] = {}) {
   return Object.keys(players).length;
 }
 
-function countChoices(choices = {}) {
+function countChoices(choices: Room['choices'] = {}) {
   const entries = Object.entries(choices);
-  return flatMap(entries, ([cardId, playerIds]) => playerIds).length;
+  return flatMap(entries, ([_, playerIds]) => playerIds).length;
 }
 
-function createRoomId(rooms) {
+function createRoomId(roomIds: number[]): number {
   const id = generateId();
-  return !collectionContainsKey(rooms, id) ? id : createRoomId(rooms);
+  return !collectionContainsKey(roomIds, id) ? id : createRoomId(roomIds);
 }
 
-function createPlayerId(players) {
+function createPlayerId(playerIds: number[]): number {
   const id = generateId(0);
-  return !collectionContainsKey(players, id) ? id : createPlayerId(players);
+  return !collectionContainsKey(playerIds, id) ? id : createPlayerId(playerIds);
 }
 
 export {

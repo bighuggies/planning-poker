@@ -39,7 +39,8 @@ const rootReducers = (state = initialState, action: AllActions) => {
       const roomId = action.payload.roomId;
       if (!roomId) return state;
       if (roomId && countPlayers(state[roomId].players) === 0) {
-        delete state[roomId];
+        const { [roomId]: omit, ...remainingRooms } = state;
+        return remainingRooms;
       }
       return state;
     }

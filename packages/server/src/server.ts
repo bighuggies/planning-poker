@@ -1,3 +1,4 @@
+import Joi from 'joi';
 import { createStore } from 'redux';
 import Server from 'socket.io';
 
@@ -10,6 +11,7 @@ import {
 } from './helpers';
 import { reducers } from './reducers';
 import * as types from './types';
+import { joinRoomEventSchema, playCardEventSchema } from './validators';
 
 const store = createStore(reducers);
 const io = Server(8000, { origins: '*:3000' });
@@ -32,11 +34,23 @@ io.on('connect', (socket: PlanningPokerSocket) => {
     socket.emit(types.ROOM_CREATED, { roomId });
   });
 
-  socket.on(types.JOIN_ROOM, ({ roomId, playerName }) => {
+  socket.on(types.JOIN_ROOM, args => {
+    const { error, value } = Joi.validate<{
+      roomId: number;
+      playerName: string;
+    }>(args, joinRoomEventSchema);
+
+    if (error) {
+      socket.emit('BAD_REQUEST', error);
+      return;
+    }
+
+    const { roomId, playerName } = value;
+
     const players = store.getState()[roomId].players;
     const playerIds = Object.keys(players || {});
 
-    socket.join(roomId);
+    socket.join(roomId.toString());
     socket.roomId = roomId;
     socket.actions = actions(roomId);
     socket.playerId = createPlayerId(playerIds.map(i => parseInt(i, 10)));
@@ -44,7 +58,7 @@ io.on('connect', (socket: PlanningPokerSocket) => {
 
     const updatedPlayers = store.getState()[roomId].players!;
 
-    io.to(roomId).emit(types.UPDATE_PLAYERS, {
+    io.to(roomId.toString()).emit(types.UPDATE_PLAYERS, {
       players: Object.values(updatedPlayers),
     });
     socket.emit(types.ROOM_JOINED, {
@@ -56,7 +70,18 @@ io.on('connect', (socket: PlanningPokerSocket) => {
     io.to(socket.roomId.toString()).emit(types.SESSION_STARTED);
   });
 
-  socket.on(types.PLAY_CARD, ({ cardId }) => {
+  socket.on(types.PLAY_CARD, args => {
+    const { error, value } = Joi.validate<{
+      cardId: string;
+    }>(args, playCardEventSchema);
+
+    if (error) {
+      socket.emit('BAD_REQUEST', error);
+      return;
+    }
+
+    const { cardId } = value;
+
     store.dispatch(socket.actions.playCard(socket.playerId, cardId));
     socket.emit(types.UPDATE_STATE, { hasChosen: true, isWaiting: true });
 

@@ -47,7 +47,8 @@ io.on('connect', (socket: PlanningPokerSocket) => {
 
     const { roomId, playerName } = value;
 
-    const players = store.getState()[roomId].players;
+    const room = store.getState()[roomId];
+    const players = room && room.players;
     const playerIds = Object.keys(players || {});
 
     socket.join(roomId.toString());
@@ -56,7 +57,7 @@ io.on('connect', (socket: PlanningPokerSocket) => {
     socket.playerId = createPlayerId(playerIds.map(i => parseInt(i, 10)));
     store.dispatch(socket.actions.joinRoom(socket.playerId, playerName));
 
-    const updatedPlayers = store.getState()[roomId].players!;
+    const updatedPlayers = store.getState()[roomId]!.players;
 
     io.to(roomId.toString()).emit(types.UPDATE_PLAYERS, {
       players: Object.values(updatedPlayers),
@@ -85,7 +86,7 @@ io.on('connect', (socket: PlanningPokerSocket) => {
     store.dispatch(socket.actions.playCard(socket.playerId, cardId));
     socket.emit(types.UPDATE_STATE, { hasChosen: true, isWaiting: true });
 
-    const { players, choices } = store.getState()[socket.roomId];
+    const { players, choices } = store.getState()[socket.roomId]!;
 
     io.to(socket.roomId.toString()).emit(types.UPDATE_CHOICES, { choices });
 
@@ -99,7 +100,8 @@ io.on('connect', (socket: PlanningPokerSocket) => {
   socket.on(types.NEW_ROUND, () => {
     store.dispatch(socket.actions.newRound());
 
-    const choices = store.getState()[socket.roomId].choices;
+    const room = store.getState()[socket.roomId];
+    const choices = room && room.choices;
 
     io.to(socket.roomId.toString()).emit(types.START_ROUND, {
       choices,

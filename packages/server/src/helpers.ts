@@ -18,7 +18,7 @@ function countPlayers(players: Room['players'] = {}) {
 
 function countChoices(choices: Room['choices'] = {}) {
   const entries = Object.entries(choices);
-  return flatMap(entries, ([_, playerIds]) => playerIds).length;
+  return flatMap(entries, ([_, playerIds]) => playerIds || []).length;
 }
 
 function createRoomId(roomIds: number[]): number {
@@ -31,6 +31,10 @@ function createPlayerId(playerIds: number[]): number {
   return !collectionContainsKey(playerIds, id) ? id : createPlayerId(playerIds);
 }
 
+function newRoom(roomId: number): Room {
+  return { id: roomId, players: {}, choices: {} };
+}
+
 export {
   generateId,
   collectionContainsKey,
@@ -38,4 +42,5 @@ export {
   countChoices,
   createRoomId,
   createPlayerId,
+  newRoom,
 };

@@ -1,7 +1,7 @@
+import produce from 'immer';
+
 import { AllActions } from './actions';
-import { countPlayers } from './helpers';
-import { choices } from './reducers/choices';
-import { players } from './reducers/players';
+import { countPlayers, newRoom } from './helpers';
 import {
   CREATE_ROOM,
   JOIN_ROOM,
@@ -14,73 +14,73 @@ export type Choices = number[]; // array of player ids
 export type Player = { id: number; host: boolean; playerName: string };
 export type Room = {
   id: number;
-  players?: { [playerId: number]: Player };
-  choices?: { [cardId: string]: Choices };
+  players: { [playerId: number]: Player | undefined };
+  choices: { [cardId: string]: Choices | undefined };
 };
 export type AppState = {
-  [roomId: number]: Room;
+  [roomId: number]: Room | undefined;
 };
 
 const initialState: AppState = {};
 
 const rootReducers = (state = initialState, action: AllActions) => {
-  switch (action.type) {
-    case CREATE_ROOM: {
-      const roomId = action.payload.roomId;
-      return {
-        ...state,
-        [roomId]: {
-          id: roomId,
-        },
-      };
-    }
+  return produce(state, draft => {
+    switch (action.type) {
+      case CREATE_ROOM: {
+        const { roomId } = action.payload;
 
-    case REMOVE_ROOM: {
-      const roomId = action.payload.roomId;
-      if (!roomId) return state;
-      if (roomId && countPlayers(state[roomId].players) === 0) {
-        const { [roomId]: omit, ...remainingRooms } = state;
-        return remainingRooms;
+        draft[roomId] = newRoom(roomId);
+
+        break;
       }
-      return state;
-    }
 
-    case JOIN_ROOM: {
-      const roomId = action.payload.roomId;
-      return {
-        ...state,
-        [roomId]: {
-          ...state[roomId],
-          players: players(state[roomId].players, action),
-        },
-      };
-    }
+      case REMOVE_ROOM: {
+        const { roomId } = action.payload;
+        const room = draft[roomId];
 
-    case PLAY_CARD: {
-      const roomId = action.payload.roomId;
-      return {
-        ...state,
-        [roomId]: {
-          ...state[roomId],
-          choices: choices(state[roomId].choices, action),
-        },
-      };
-    }
+        if (room && countPlayers(room.players) === 0) {
+          delete draft[roomId];
+        }
 
-    case NEW_ROUND: {
-      const roomId = action.payload.roomId;
-      return {
-        ...state,
-        [roomId]: {
-          ...state[roomId],
-          choices: {},
-        },
-      };
-    }
+        break;
+      }
 
-    default:
-      return state;
-  }
+      case JOIN_ROOM: {
+        const { roomId, playerId, playerName } = action.payload;
+        const room = draft[roomId] || (draft[roomId] = newRoom(roomId));
+        const players = room.players || (room.players = {});
+
+        players[playerId] = {
+          id: playerId,
+          playerName,
+          host: countPlayers(players) === 0,
+        };
+
+        break;
+      }
+
+      case PLAY_CARD: {
+        const { roomId, cardId, playerId } = action.payload;
+
+        const room = draft[roomId] || (draft[roomId] = newRoom(roomId));
+        const choices = room.choices || (room.choices = {});
+        const cardChoices = choices[cardId] || (choices[cardId] = []);
+
+        cardChoices.push(playerId);
+
+        break;
+      }
+
+      case NEW_ROUND: {
+        const { roomId } = action.payload;
+        const room = draft[roomId] || (draft[roomId] = newRoom(roomId));
+
+        room.choices = {};
+
+        break;
+      }
+    }
+  });
 };
 
 export { rootReducers as reducers };

@@ -23,7 +23,7 @@ const Start: React.FunctionComponent<
   };
 
   return (
-    <Fragment>
+    <>
       <form>
         <fieldset>
           <legend>Join a planning poker session</legend>
@@ -50,7 +50,7 @@ const Start: React.FunctionComponent<
         </fieldset>
       </form>
 
-      <Fragment>
+      <>
         <p>
           If you don’t have a session, you can host one for you and your team.
         </p>
@@ -60,8 +60,8 @@ const Start: React.FunctionComponent<
             <button onClick={createRoom}>Host session</button>
           )}
         </Actions>
-      </Fragment>
-    </Fragment>
+      </>
+    </>
   );
 };
 

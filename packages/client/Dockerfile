@@ -14,13 +14,13 @@ COPY lerna.json /home/app/
 COPY packages/client/package.json /home/app/packages/client/
 COPY packages/client/yarn.lock /home/app/packages/client/
 
-RUN yarn install --frozen-lockfile --production --no-optional
-RUN npx lerna bootstrap --ignore-scripts -- --production --no-optional
+RUN yarn global add lerna
+RUN lerna bootstrap
 
 # Build
 
 COPY . /home/app/
-RUN cd packages/client && npm run build
+RUN cd packages/client && yarn build
 
 # Serve
 

@@ -1,16 +1,15 @@
 import { Actions } from './actions';
 import { AppState } from './components/utils/WithState/WithState';
-import { types } from './types';
 
 export const reducers = (state: AppState, action: Actions) => {
   switch (action.type) {
-    case types.ROOM_CREATED:
+    case 'ROOM_CREATED':
       return { roomId: action.payload };
 
-    case types.ROOM_JOINED:
+    case 'ROOM_JOINED':
       return { player: action.payload };
 
-    case types.UPDATE_FIELD:
+    case 'UPDATE_FIELD':
       return {
         fields: {
           ...state.fields,
@@ -18,16 +17,16 @@ export const reducers = (state: AppState, action: Actions) => {
         },
       };
 
-    case types.UPDATE_STATE:
+    case 'UPDATE_STATE':
       return { ...state, ...action.payload };
 
-    case types.UPDATE_PLAYERS:
+    case 'UPDATE_PLAYERS':
       return { players: action.payload };
 
-    case types.UPDATE_CHOICES:
+    case 'UPDATE_CHOICES':
       return { choices: action.payload };
 
-    case types.START_ROUND:
+    case 'START_ROUND':
       return {
         choices: action.payload.choices,
         hasChosen: action.payload.hasChosen,

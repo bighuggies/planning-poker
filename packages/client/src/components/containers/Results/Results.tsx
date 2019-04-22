@@ -44,7 +44,7 @@ export const Results = memo(({ player, players, choices }: Props) => {
 
       {player.host && (
         <Actions>
-          {({ newRound }: any) => <button onClick={newRound}>New round</button>}
+          {({ newRound }) => <button onClick={newRound}>New round</button>}
         </Actions>
       )}
     </div>

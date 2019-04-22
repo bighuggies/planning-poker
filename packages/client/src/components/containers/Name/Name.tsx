@@ -43,7 +43,7 @@ const Name: React.FunctionComponent<
           </label>
 
           <Actions>
-            {({ joinRoom }: any) => (
+            {({ joinRoom }) => (
               <button
                 onClick={() => joinRoom(props.roomId, props.fields.playerName)}
                 disabled={isDisabled(props.fields.playerName)}

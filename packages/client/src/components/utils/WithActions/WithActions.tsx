@@ -15,7 +15,7 @@ const actionEmitter = {
     client.emit('JOIN_ROOM', { roomId, playerName });
   },
 
-  playCard(cardId: number) {
+  playCard(cardId: string) {
     client.emit('PLAY_CARD', { cardId });
   },
 

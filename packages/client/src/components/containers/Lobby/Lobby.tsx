@@ -15,7 +15,7 @@ const Lobby: React.FunctionComponent<WithStateProps & RouteComponentProps> = ({
     <section>
       {player.host && (
         <Actions>
-          {({ startSession }: any): any => (
+          {({ startSession }) => (
             <button onClick={startSession}>Start session</button>
           )}
         </Actions>

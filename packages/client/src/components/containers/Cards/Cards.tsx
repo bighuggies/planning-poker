@@ -5,7 +5,7 @@ import { Actions } from '../../utils/WithActions/WithActions';
 
 export const Cards: React.FunctionComponent = memo(() => (
   <Actions>
-    {({ playCard }: any): any => (
+    {({ playCard }) => (
       <ul>
         {cards.fibonacci.map(number => (
           <li key={number}>

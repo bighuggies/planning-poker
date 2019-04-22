@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
 
-import { filterIds, getPlayerIdsFromChoices, prop } from '../../../helpers';
 import { Choices, Player } from '../../../interfaces';
 
 interface Props {
@@ -9,21 +8,22 @@ interface Props {
 }
 
 export const Waiting: React.FunctionComponent<Props> = memo(
-  ({ players, choices }) => (
-    <div>
-      <p>Waiting on the following people to choose a card.</p>
+  ({ players, choices }) => {
+    const playersIdsWhoHaveChosen = Object.values(choices).flat();
+    const playersWhoHaveNotChosen = players.filter(
+      player => !playersIdsWhoHaveChosen.includes(player.id),
+    );
 
-      <ul>
-        {filterIds(prop(players, 'id'), getPlayerIdsFromChoices(choices)).map(
-          (playerId: string) => {
-            const { playerName } = players.find(
-              player => player.id === playerId,
-            )!;
+    return (
+      <div>
+        <p>Waiting on the following people to choose a card.</p>
 
-            return <span key={playerId}>{playerName}</span>;
-          },
-        )}
-      </ul>
-    </div>
-  ),
+        <ul>
+          {playersWhoHaveNotChosen.map(player => (
+            <li key={player.id}>{player.playerName}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  },
 );

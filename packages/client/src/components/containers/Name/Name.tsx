@@ -11,8 +11,9 @@ const Name: React.FunctionComponent<
   WithStateProps & RouteComponentProps
 > = props => {
   if (props.roomId === 0) return <Redirect noThrow={true} to="/" />;
-  if (props.player && props.player.id)
+  if (props.player && props.player.id) {
     return <Redirect noThrow={true} to="/lobby" />;
+  }
 
   const changeHandler = (dispatch: Function) => (
     event: React.FormEvent<HTMLInputElement>,

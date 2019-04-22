@@ -14,30 +14,30 @@
   },
   "dependencies": {
     "@reach/router": "^1.2.1",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "react-scripts": "2.1.8",
     "socket.io-client": "^2.2.0",
     "styled-components": "^4.2.0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.11",
-    "@types/node": "^11.11.3",
-    "@types/reach__router": "^1.2.3",
-    "@types/react": "^16.8.8",
-    "@types/react-dom": "^16.8.2",
+    "@types/node": "^11.13.6",
+    "@types/reach__router": "^1.2.4",
+    "@types/react": "^16.8.14",
+    "@types/react-dom": "^16.8.4",
     "@types/socket.io-client": "^1.4.32",
     "@types/styled-components": "^4.1.14",
-    "prettier": "^1.16.4",
+    "prettier": "^1.17.0",
     "stylelint": "^10.0.1",
     "stylelint-config-recommended": "^2.2.0",
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-processor-styled-components": "^1.6.0",
-    "tslint": "^5.14.0",
+    "tslint": "^5.16.0",
     "tslint-config-airbnb": "^5.11.1",
     "tslint-config-prettier": "^1.18.0",
-    "tslint-react": "^3.6.0",
-    "typescript": "^3.3.3333"
+    "tslint-react": "^4.0.0",
+    "typescript": "^3.4.4"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -21,4 +21,4 @@ RUN cd packages/server && yarn install && yarn build
 COPY ./lib /home/app/
 
 # Serve
-CMD [ "node", "./lib/server.js" ]
+CMD [ "node", "./lib/index.js" ]

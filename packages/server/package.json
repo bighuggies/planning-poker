@@ -2,11 +2,11 @@
   "name": "server",
   "version": "1.0.0",
   "description": "the backend of planning poker",
-  "main": "src/server.js",
+  "main": "lib/index.js",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "ts-node-dev src/server.ts",
+    "start": "ts-node-dev src/index.ts",
     "build": "rm -rf ./lib && tsc",
     "lint": "tslint --fix -p tsconfig.json \"src/**/*.ts\"",
     "prettier": "prettier --write \"src/**/*.ts\""

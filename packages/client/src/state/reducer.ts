@@ -1,16 +1,18 @@
-import { Actions } from './actions';
-import { AppState } from './components/utils/WithState/WithState';
+import { State } from '../types';
 
-export const reducers = (state: AppState, action: Actions) => {
+import { Actions } from './actions';
+
+export const reducer = (state: State, action: Actions): State => {
   switch (action.type) {
     case 'ROOM_CREATED':
-      return { roomId: action.payload };
+      return { ...state, roomId: action.payload };
 
     case 'ROOM_JOINED':
-      return { player: action.payload };
+      return { ...state, player: action.payload };
 
     case 'UPDATE_FIELD':
       return {
+        ...state,
         fields: {
           ...state.fields,
           [action.payload.field]: action.payload.value,
@@ -21,13 +23,14 @@ export const reducers = (state: AppState, action: Actions) => {
       return { ...state, ...action.payload };
 
     case 'UPDATE_PLAYERS':
-      return { players: action.payload };
+      return { ...state, players: action.payload };
 
     case 'UPDATE_CHOICES':
-      return { choices: action.payload };
+      return { ...state, choices: action.payload };
 
     case 'START_ROUND':
       return {
+        ...state,
         choices: action.payload.choices,
         hasChosen: action.payload.hasChosen,
       };

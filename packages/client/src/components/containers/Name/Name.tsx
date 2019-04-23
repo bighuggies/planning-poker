@@ -1,17 +1,17 @@
 import { Redirect, RouteComponentProps } from '@reach/router';
-import React, { memo } from 'react';
+import React from 'react';
 
-import { updateField } from '../../../actions';
+import { updateField } from '../../../state/actions';
+import { useAppState } from '../../../state/useAppState';
 import { Actions } from '../../utils/WithActions/WithActions';
-import { withState, WithStateProps } from '../../utils/WithState/WithState';
 
 const isDisabled = (playerName: string) => playerName.length <= 2;
 
-const Name: React.FunctionComponent<
-  WithStateProps & RouteComponentProps
-> = props => {
-  if (props.roomId === 0) return <Redirect noThrow={true} to="/" />;
-  if (props.player && props.player.id) {
+export const Name: React.FunctionComponent<RouteComponentProps> = () => {
+  const [state, dispatch] = useAppState();
+
+  if (state.roomId === 0) return <Redirect noThrow={true} to="/" />;
+  if (state.player && state.player.id) {
     return <Redirect noThrow={true} to="/lobby" />;
   }
 
@@ -26,7 +26,7 @@ const Name: React.FunctionComponent<
     <section>
       <div>
         <span>Your pin!</span>
-        <span>{props.roomId}</span>
+        <span>{state.roomId}</span>
       </div>
 
       <form onSubmit={event => event.preventDefault()}>
@@ -37,16 +37,16 @@ const Name: React.FunctionComponent<
             <span>Your name</span>
             <input
               type="text"
-              onChange={changeHandler(props.dispatch)}
-              value={props.fields.playerName}
+              onChange={changeHandler(dispatch)}
+              value={state.fields.playerName}
             />
           </label>
 
           <Actions>
             {({ joinRoom }) => (
               <button
-                onClick={() => joinRoom(props.roomId, props.fields.playerName)}
-                disabled={isDisabled(props.fields.playerName)}
+                onClick={() => joinRoom(state.roomId, state.fields.playerName)}
+                disabled={isDisabled(state.fields.playerName)}
               >
                 Let’s go!
               </button>
@@ -57,7 +57,3 @@ const Name: React.FunctionComponent<
     </section>
   );
 };
-
-const ContainedName = withState(memo(Name));
-
-export { ContainedName as Name };

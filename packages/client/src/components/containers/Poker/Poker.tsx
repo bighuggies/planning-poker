@@ -1,18 +1,15 @@
 import { Redirect, RouteComponentProps } from '@reach/router';
 import React from 'react';
 
-import { withState, WithStateProps } from '../../utils/WithState/WithState';
+import { useAppState } from '../../../state/useAppState';
 import { Cards } from '../Cards/Cards';
 import { Results } from '../Results/Results';
 import { Waiting } from '../Waiting/Waiting';
 
-const Poker: React.FunctionComponent<WithStateProps & RouteComponentProps> = ({
-  player,
-  players,
-  choices,
-  hasChosen,
-  isWaiting,
-}) => {
+export const Poker: React.FunctionComponent<RouteComponentProps> = () => {
+  const [state] = useAppState();
+  const { player, players, choices, hasChosen, isWaiting } = state;
+
   if (!player || !player.id) return <Redirect noThrow={true} to="/" />;
 
   return (
@@ -33,7 +30,3 @@ const Poker: React.FunctionComponent<WithStateProps & RouteComponentProps> = ({
     </section>
   );
 };
-
-const ContainedPoker = withState(Poker);
-
-export { ContainedPoker as Poker };

@@ -16,13 +16,13 @@
     "@reach/router": "^1.2.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "2.1.8",
+    "react-scripts": "3.0.0",
     "socket.io-client": "^2.2.0",
     "styled-components": "^4.2.0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.11",
-    "@types/node": "^11.13.6",
+    "@types/node": "^11.13.7",
     "@types/reach__router": "^1.2.4",
     "@types/react": "^16.8.14",
     "@types/react-dom": "^16.8.4",
@@ -37,7 +37,7 @@
     "tslint-config-airbnb": "^5.11.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-react": "^4.0.0",
-    "typescript": "^3.4.4"
+    "typescript": "^3.4.5"
   },
   "eslintConfig": {
     "extends": "react-app"

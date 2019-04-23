@@ -1,10 +1,10 @@
 import { navigate } from '@reach/router';
 import React, { createContext, PureComponent } from 'react';
 
-import * as actions from '../../../actions';
-import { Choices, Player } from '../../../interfaces';
 import { client } from '../../../socket';
-import { AppState, StateContext } from '../WithState/WithState';
+import * as actions from '../../../state/actions';
+import { StateContext } from '../../../state/StateContext';
+import { Choices, Player, State } from '../../../types';
 
 const actionEmitter = {
   createRoom() {
@@ -33,34 +33,36 @@ export class ActionsProvider extends PureComponent {
   static contextType = StateContext;
 
   componentDidMount() {
+    const [, dispatch] = this.context as React.ContextType<typeof StateContext>;
+
     client.on('SESSION_STARTED', () => {
       navigate('/poker');
     });
 
     client.on('ROOM_CREATED', ({ roomId }: { roomId: number }) => {
-      this.context.dispatch(actions.roomCreated(roomId));
+      dispatch(actions.roomCreated(roomId));
     });
 
     client.on('ROOM_JOINED', ({ player }: { player: Player }) => {
-      this.context.dispatch(actions.roomJoined(player));
+      dispatch(actions.roomJoined(player));
     });
 
-    client.on('UPDATE_STATE', (newState: Partial<AppState>) => {
-      this.context.dispatch(actions.updateState(newState));
+    client.on('UPDATE_STATE', (newState: Partial<State>) => {
+      dispatch(actions.updateState(newState));
     });
 
     client.on('UPDATE_PLAYERS', ({ players }: { players: Player[] }) => {
-      this.context.dispatch(actions.updatePlayers(players));
+      dispatch(actions.updatePlayers(players));
     });
 
-    client.on('UPDATE_CHOICES', ({ choices }: { choices: Choices[] }) => {
-      this.context.dispatch(actions.updateChoices(choices));
+    client.on('UPDATE_CHOICES', ({ choices }: { choices: Choices }) => {
+      dispatch(actions.updateChoices(choices));
     });
 
     client.on(
       'START_ROUND',
-      ({ choices, hasChosen }: { choices: Choices[]; hasChosen: boolean }) => {
-        this.context.dispatch(actions.startRound(choices, hasChosen));
+      ({ choices, hasChosen }: { choices: Choices; hasChosen: boolean }) => {
+        dispatch(actions.startRound(choices, hasChosen));
       },
     );
   }

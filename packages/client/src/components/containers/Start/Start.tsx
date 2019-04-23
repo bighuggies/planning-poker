@@ -1,24 +1,24 @@
 import { Redirect, redirectTo, RouteComponentProps } from '@reach/router';
-import React, { memo } from 'react';
+import React from 'react';
 
-import { roomCreated, updateField } from '../../../actions';
+import { roomCreated, updateField } from '../../../state/actions';
+import { useAppState } from '../../../state/useAppState';
 import { Actions } from '../../utils/WithActions/WithActions';
-import { withState, WithStateProps } from '../../utils/WithState/WithState';
 
 const isDisabled = (roomId: string) => roomId.length !== 3;
 
-const Start: React.FunctionComponent<
-  WithStateProps & RouteComponentProps
-> = props => {
-  if (props.roomId !== 0) return <Redirect noThrow={true} to="/name" />;
+export const Start: React.FunctionComponent<RouteComponentProps> = () => {
+  const [state, dispatch] = useAppState();
+
+  if (state.roomId !== 0) return <Redirect noThrow={true} to="/name" />;
 
   const changeHandler: React.ChangeEventHandler<HTMLInputElement> = event => {
     const value = event.target.value;
-    props.dispatch(updateField('roomId', value));
+    dispatch(updateField('roomId', value));
   };
 
   const navigateToName = () => {
-    props.dispatch(roomCreated(Number(props.fields.roomId)));
+    dispatch(roomCreated(Number(state.fields.roomId)));
     redirectTo('/name');
   };
 
@@ -33,7 +33,7 @@ const Start: React.FunctionComponent<
             <input
               type="text"
               onChange={changeHandler}
-              value={props.fields.roomId}
+              value={state.fields.roomId}
             />
           </label>
 
@@ -41,7 +41,7 @@ const Start: React.FunctionComponent<
             {() => (
               <button
                 onClick={navigateToName}
-                disabled={isDisabled(props.fields.roomId)}
+                disabled={isDisabled(state.fields.roomId)}
               >
                 Join session
               </button>
@@ -64,7 +64,3 @@ const Start: React.FunctionComponent<
     </>
   );
 };
-
-const ContainedStart = withState(memo(Start));
-
-export { ContainedStart as Start };

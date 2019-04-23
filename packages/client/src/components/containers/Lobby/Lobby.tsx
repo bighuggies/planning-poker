@@ -1,14 +1,13 @@
 import { Redirect, RouteComponentProps } from '@reach/router';
-import React, { memo } from 'react';
+import React from 'react';
 
-import { Player } from '../../../interfaces';
+import { useAppState } from '../../../state/useAppState';
+import { Player } from '../../../types';
 import { Actions } from '../../utils/WithActions/WithActions';
-import { withState, WithStateProps } from '../../utils/WithState/WithState';
 
-const Lobby: React.FunctionComponent<WithStateProps & RouteComponentProps> = ({
-  player,
-  players,
-}) => {
+export const Lobby: React.FunctionComponent<RouteComponentProps> = () => {
+  const [{ player, players }] = useAppState();
+
   if (!player || !player.id) return <Redirect noThrow={true} to="/" />;
 
   return (
@@ -29,7 +28,3 @@ const Lobby: React.FunctionComponent<WithStateProps & RouteComponentProps> = ({
     </section>
   );
 };
-
-const ContainedLobby = withState(memo(Lobby));
-
-export { ContainedLobby as Lobby };

@@ -1,5 +1,4 @@
-import { AppState } from './components/utils/WithState/WithState';
-import { Choices, Player } from './interfaces';
+import { Choices, Player, State } from '../types';
 
 export const updateField = (field: string, value: string) => ({
   type: 'UPDATE_FIELD' as const,
@@ -21,17 +20,17 @@ export const updatePlayers = (players: Player[]) => ({
   payload: players,
 });
 
-export const updateChoices = (choices: Choices[]) => ({
+export const updateChoices = (choices: Choices) => ({
   type: 'UPDATE_CHOICES' as const,
   payload: choices,
 });
 
-export const updateState = (newState: Partial<AppState>) => ({
+export const updateState = (newState: Partial<State>) => ({
   type: 'UPDATE_STATE' as const,
   payload: newState,
 });
 
-export const startRound = (choices: Choices[], hasChosen: boolean) => ({
+export const startRound = (choices: Choices, hasChosen: boolean) => ({
   type: 'START_ROUND' as const,
   payload: { choices, hasChosen },
 });

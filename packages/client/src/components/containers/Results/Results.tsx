@@ -1,6 +1,6 @@
 import React, { Fragment, memo } from 'react';
 
-import { Choices, Player } from '../../../interfaces';
+import { Choices, Player } from '../../../types';
 import { Actions } from '../../utils/WithActions/WithActions';
 
 interface Props {
@@ -16,7 +16,12 @@ export const Results = memo(({ player, players, choices }: Props) => {
     <div>
       {cardIds.length === 1 ? (
         <Fragment>
-          <h2>The team has reached align-tenment! 🥳</h2>
+          <h2>
+            The team has reached align-tenment!{' '}
+            <span role="img" aria-label="">
+              🥳
+            </span>
+          </h2>
           <span>{cardIds.reduce((_, cardId) => cardId)}</span>
         </Fragment>
       ) : (

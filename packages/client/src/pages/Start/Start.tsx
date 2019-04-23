@@ -18,14 +18,15 @@ export const Start: React.FunctionComponent<RouteComponentProps> = () => {
     dispatch(updateField('roomId', value));
   };
 
-  const navigateToName = () => {
+  const navigateToName: React.ReactEventHandler<HTMLFormElement> = e => {
+    e.preventDefault();
     dispatch(roomCreated(Number(state.fields.roomId)));
     redirectTo('/name');
   };
 
   return (
     <>
-      <form>
+      <form onSubmit={navigateToName}>
         <fieldset>
           <legend>Join a planning poker session</legend>
 
@@ -38,10 +39,7 @@ export const Start: React.FunctionComponent<RouteComponentProps> = () => {
             />
           </label>
 
-          <button
-            onClick={navigateToName}
-            disabled={isDisabled(state.fields.roomId)}
-          >
+          <button disabled={isDisabled(state.fields.roomId)}>
             Join session
           </button>
         </fieldset>

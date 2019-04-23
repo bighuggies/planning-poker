@@ -23,6 +23,11 @@ export const Name: React.FunctionComponent<RouteComponentProps> = () => {
     dispatch(updateField('playerName', value));
   };
 
+  const handleSubmit: React.ReactEventHandler<HTMLFormElement> = e => {
+    e.preventDefault();
+    api.joinRoom(state.roomId, state.fields.playerName);
+  };
+
   return (
     <section>
       <div>
@@ -30,7 +35,7 @@ export const Name: React.FunctionComponent<RouteComponentProps> = () => {
         <span>{state.roomId}</span>
       </div>
 
-      <form onSubmit={event => event.preventDefault()}>
+      <form onSubmit={handleSubmit}>
         <fieldset>
           <legend>Let others know who you are.</legend>
 
@@ -43,10 +48,7 @@ export const Name: React.FunctionComponent<RouteComponentProps> = () => {
             />
           </label>
 
-          <button
-            onClick={() => api.joinRoom(state.roomId, state.fields.playerName)}
-            disabled={isDisabled(state.fields.playerName)}
-          >
+          <button disabled={isDisabled(state.fields.playerName)}>
             Let’s go!
           </button>
         </fieldset>

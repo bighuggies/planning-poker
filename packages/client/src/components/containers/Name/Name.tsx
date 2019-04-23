@@ -1,14 +1,15 @@
 import { Redirect, RouteComponentProps } from '@reach/router';
 import React from 'react';
 
+import { useApi } from '../../../api/useApi';
 import { updateField } from '../../../state/actions';
 import { useAppState } from '../../../state/useAppState';
-import { Actions } from '../../utils/WithActions/WithActions';
 
 const isDisabled = (playerName: string) => playerName.length <= 2;
 
 export const Name: React.FunctionComponent<RouteComponentProps> = () => {
   const [state, dispatch] = useAppState();
+  const api = useApi();
 
   if (state.roomId === 0) return <Redirect noThrow={true} to="/" />;
   if (state.player && state.player.id) {
@@ -42,16 +43,12 @@ export const Name: React.FunctionComponent<RouteComponentProps> = () => {
             />
           </label>
 
-          <Actions>
-            {({ joinRoom }) => (
-              <button
-                onClick={() => joinRoom(state.roomId, state.fields.playerName)}
-                disabled={isDisabled(state.fields.playerName)}
-              >
-                Let’s go!
-              </button>
-            )}
-          </Actions>
+          <button
+            onClick={() => api.joinRoom(state.roomId, state.fields.playerName)}
+            disabled={isDisabled(state.fields.playerName)}
+          >
+            Let’s go!
+          </button>
         </fieldset>
       </form>
     </section>

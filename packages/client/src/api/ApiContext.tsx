@@ -1,10 +1,10 @@
 import { navigate } from '@reach/router';
-import React, { createContext, PureComponent } from 'react';
+import React from 'react';
 
-import { client } from '../../../socket';
-import * as actions from '../../../state/actions';
-import { StateContext } from '../../../state/StateContext';
-import { Choices, Player, State } from '../../../types';
+import { client } from '../socket';
+import * as actions from '../state/actions';
+import { useAppState } from '../state/useAppState';
+import { Choices, Player, State } from '../types';
 
 const actionEmitter = {
   createRoom() {
@@ -27,14 +27,13 @@ const actionEmitter = {
     client.emit('NEW_ROUND');
   },
 };
-const { Provider, Consumer } = createContext(actionEmitter);
 
-export class ActionsProvider extends PureComponent {
-  static contextType = StateContext;
+export const ApiContext = React.createContext(actionEmitter);
 
-  componentDidMount() {
-    const [, dispatch] = this.context as React.ContextType<typeof StateContext>;
+export const ApiProvider: React.FunctionComponent = ({ children }) => {
+  const [, dispatch] = useAppState();
 
+  React.useEffect(() => {
     client.on('SESSION_STARTED', () => {
       navigate('/poker');
     });
@@ -65,11 +64,9 @@ export class ActionsProvider extends PureComponent {
         dispatch(actions.startRound(choices, hasChosen));
       },
     );
-  }
+  }, [dispatch]);
 
-  render() {
-    return <Provider value={actionEmitter}>{this.props.children}</Provider>;
-  }
-}
-
-export const Actions = Consumer;
+  return (
+    <ApiContext.Provider value={actionEmitter}>{children}</ApiContext.Provider>
+  );
+};

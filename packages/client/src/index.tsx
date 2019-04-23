@@ -1,15 +1,15 @@
 import React from 'react';
 import { render } from 'react-dom';
 
+import { ApiProvider } from './api/ApiContext';
 import App from './components/containers/App/App';
-import { ActionsProvider } from './components/utils/WithActions/WithActions';
 import { StateProvider } from './state/StateContext';
 
 render(
   <StateProvider>
-    <ActionsProvider>
+    <ApiProvider>
       <App />
-    </ActionsProvider>
+    </ApiProvider>
   </StateProvider>,
   document.getElementById('root'),
 );

@@ -1,24 +1,19 @@
 import { Redirect, RouteComponentProps } from '@reach/router';
 import React from 'react';
 
+import { useApi } from '../../../api/useApi';
 import { useAppState } from '../../../state/useAppState';
 import { Player } from '../../../types';
-import { Actions } from '../../utils/WithActions/WithActions';
 
 export const Lobby: React.FunctionComponent<RouteComponentProps> = () => {
   const [{ player, players }] = useAppState();
+  const api = useApi();
 
   if (!player || !player.id) return <Redirect noThrow={true} to="/" />;
 
   return (
     <section>
-      {player.host && (
-        <Actions>
-          {({ startSession }) => (
-            <button onClick={startSession}>Start session</button>
-          )}
-        </Actions>
-      )}
+      {player.host && <button onClick={api.startSession}>Start session</button>}
 
       <ul>
         {players.map((player: Player) => (

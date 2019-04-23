@@ -1,7 +1,7 @@
 import React, { Fragment, memo } from 'react';
 
+import { useApi } from '../../../api/useApi';
 import { Choices, Player } from '../../../types';
-import { Actions } from '../../utils/WithActions/WithActions';
 
 interface Props {
   player: Player;
@@ -10,6 +10,7 @@ interface Props {
 }
 
 export const Results = memo(({ player, players, choices }: Props) => {
+  const api = useApi();
   const cardIds = Object.keys(choices);
 
   return (
@@ -47,11 +48,7 @@ export const Results = memo(({ player, players, choices }: Props) => {
         </Fragment>
       )}
 
-      {player.host && (
-        <Actions>
-          {({ newRound }) => <button onClick={newRound}>New round</button>}
-        </Actions>
-      )}
+      {player.host && <button onClick={api.newRound}>New round</button>}
     </div>
   );
 });

@@ -1,14 +1,15 @@
 import { Redirect, redirectTo, RouteComponentProps } from '@reach/router';
 import React from 'react';
 
+import { useApi } from '../../../api/useApi';
 import { roomCreated, updateField } from '../../../state/actions';
 import { useAppState } from '../../../state/useAppState';
-import { Actions } from '../../utils/WithActions/WithActions';
 
 const isDisabled = (roomId: string) => roomId.length !== 3;
 
 export const Start: React.FunctionComponent<RouteComponentProps> = () => {
   const [state, dispatch] = useAppState();
+  const api = useApi();
 
   if (state.roomId !== 0) return <Redirect noThrow={true} to="/name" />;
 
@@ -37,30 +38,20 @@ export const Start: React.FunctionComponent<RouteComponentProps> = () => {
             />
           </label>
 
-          <Actions>
-            {() => (
-              <button
-                onClick={navigateToName}
-                disabled={isDisabled(state.fields.roomId)}
-              >
-                Join session
-              </button>
-            )}
-          </Actions>
+          <button
+            onClick={navigateToName}
+            disabled={isDisabled(state.fields.roomId)}
+          >
+            Join session
+          </button>
         </fieldset>
       </form>
 
-      <>
-        <p>
-          If you don’t have a session, you can host one for you and your team.
-        </p>
+      <p>
+        If you don’t have a session, you can host one for you and your team.
+      </p>
 
-        <Actions>
-          {({ createRoom }) => (
-            <button onClick={createRoom}>Host session</button>
-          )}
-        </Actions>
-      </>
+      <button onClick={api.createRoom}>Host session</button>
     </>
   );
 };

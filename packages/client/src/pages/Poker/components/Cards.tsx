@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 
 import { useApi } from '../../../api/useApi';
-import { cards } from '../../../constants';
+import { cards } from '../constants';
 
 export const Cards: React.FunctionComponent = memo(() => {
   const api = useApi();

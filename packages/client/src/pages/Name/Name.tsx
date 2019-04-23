@@ -1,9 +1,9 @@
 import { Redirect, RouteComponentProps } from '@reach/router';
 import React from 'react';
 
-import { useApi } from '../../../api/useApi';
-import { updateField } from '../../../state/actions';
-import { useAppState } from '../../../state/useAppState';
+import { useApi } from '../../api/useApi';
+import { updateField } from '../../state/actions';
+import { useAppState } from '../../state/useAppState';
 
 const isDisabled = (playerName: string) => playerName.length <= 2;
 

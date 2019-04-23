@@ -1,10 +1,11 @@
 import { navigate } from '@reach/router';
 import React from 'react';
 
-import { client } from '../socket';
 import * as actions from '../state/actions';
 import { useAppState } from '../state/useAppState';
 import { Choices, Player, State } from '../types';
+
+import { client } from './socket';
 
 const actionEmitter = {
   createRoom() {

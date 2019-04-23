@@ -1,9 +1,9 @@
 import { Redirect, redirectTo, RouteComponentProps } from '@reach/router';
 import React from 'react';
 
-import { useApi } from '../../../api/useApi';
-import { roomCreated, updateField } from '../../../state/actions';
-import { useAppState } from '../../../state/useAppState';
+import { useApi } from '../../api/useApi';
+import { roomCreated, updateField } from '../../state/actions';
+import { useAppState } from '../../state/useAppState';
 
 const isDisabled = (roomId: string) => roomId.length !== 3;
 

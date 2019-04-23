@@ -1,9 +1,9 @@
 import { Redirect, RouteComponentProps } from '@reach/router';
 import React from 'react';
 
-import { useApi } from '../../../api/useApi';
-import { useAppState } from '../../../state/useAppState';
-import { Player } from '../../../types';
+import { useApi } from '../../api/useApi';
+import { useAppState } from '../../state/useAppState';
+import { Player } from '../../types';
 
 export const Lobby: React.FunctionComponent<RouteComponentProps> = () => {
   const [{ player, players }] = useAppState();

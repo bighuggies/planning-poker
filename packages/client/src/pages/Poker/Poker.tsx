@@ -1,10 +1,11 @@
 import { Redirect, RouteComponentProps } from '@reach/router';
 import React from 'react';
 
-import { useAppState } from '../../../state/useAppState';
-import { Cards } from '../Cards/Cards';
-import { Results } from '../Results/Results';
-import { Waiting } from '../Waiting/Waiting';
+import { useAppState } from '../../state/useAppState';
+
+import { Cards } from './components/Cards';
+import { Results } from './components/Results';
+import { Waiting } from './components/Waiting';
 
 export const Poker: React.FunctionComponent<RouteComponentProps> = () => {
   const [state] = useAppState();

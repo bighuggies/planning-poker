@@ -1,25 +1,30 @@
-import { Redirect, RouteComponentProps } from '@reach/router';
+import { RouteComponentProps } from '@reach/router';
 import React from 'react';
 
 import { useApi } from '../../api/useApi';
+import { RequireRoom } from '../../components/RequireRoom/RequireRoom';
 import { useAppState } from '../../state/useAppState';
 import { Player } from '../../types';
 
-export const Lobby: React.FunctionComponent<RouteComponentProps> = () => {
-  const [{ player, players }] = useAppState();
+export const Lobby: React.FunctionComponent<
+  RouteComponentProps<{ roomIdParam: string }>
+> = props => {
+  const [state] = useAppState();
   const api = useApi();
 
-  if (!player || !player.id) return <Redirect noThrow={true} to="/" />;
-
   return (
-    <section>
-      {player.host && <button onClick={api.startSession}>Start session</button>}
+    <RequireRoom roomIdParam={props.roomIdParam}>
+      <section>
+        {state.player && state.player.host && (
+          <button onClick={api.startSession}>Start session</button>
+        )}
 
-      <ul>
-        {players.map((player: Player) => (
-          <li key={player.id}>{player.playerName}</li>
-        ))}
-      </ul>
-    </section>
+        <ul>
+          {state.players.map((player: Player) => (
+            <li key={player.id}>{player.playerName}</li>
+          ))}
+        </ul>
+      </section>
+    </RequireRoom>
   );
 };

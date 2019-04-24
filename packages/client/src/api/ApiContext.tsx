@@ -32,11 +32,12 @@ const actionEmitter = {
 export const ApiContext = React.createContext(actionEmitter);
 
 export const ApiProvider: React.FunctionComponent = ({ children }) => {
-  const [, dispatch] = useAppState();
+  const [state, dispatch] = useAppState();
 
   React.useEffect(() => {
     client.on('SESSION_STARTED', () => {
-      navigate('/poker');
+      // todo: this is a bit gross
+      navigate(`/room/${state.roomId}/poker`);
     });
 
     client.on('ROOM_CREATED', ({ roomId }: { roomId: number }) => {
@@ -65,7 +66,11 @@ export const ApiProvider: React.FunctionComponent = ({ children }) => {
         dispatch(actions.startRound(choices, hasChosen));
       },
     );
-  }, [dispatch]);
+
+    return () => {
+      client.removeAllListeners();
+    };
+  }, [dispatch, state.roomId]);
 
   return (
     <ApiContext.Provider value={actionEmitter}>{children}</ApiContext.Provider>

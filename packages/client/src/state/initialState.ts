@@ -1,5 +1,7 @@
 import { State } from '../types';
 
+const storedName = sessionStorage.getItem('playerName');
+
 export const initialState: State = {
   hasChosen: false,
   isWaiting: false,
@@ -7,7 +9,6 @@ export const initialState: State = {
   players: [],
   choices: {},
   fields: {
-    roomId: '',
-    playerName: '',
+    playerName: storedName != null ? storedName : undefined,
   },
 };

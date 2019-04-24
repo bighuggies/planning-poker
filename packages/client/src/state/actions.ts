@@ -1,6 +1,9 @@
 import { Choices, Player, State } from '../types';
 
-export const updateField = (field: string, value: string) => ({
+export const updateField = <T extends keyof State['fields']>(
+  field: T,
+  value: State['fields'][T],
+) => ({
   type: 'UPDATE_FIELD' as const,
   payload: { field, value },
 });

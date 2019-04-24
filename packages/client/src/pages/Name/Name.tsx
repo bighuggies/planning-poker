@@ -1,22 +1,18 @@
-import { Redirect, RouteComponentProps } from '@reach/router';
+import { RouteComponentProps } from '@reach/router';
 import React from 'react';
 
-import { useApi } from '../../api/useApi';
 import { updateField } from '../../state/actions';
 import { useAppState } from '../../state/useAppState';
 
-const isDisabled = (playerName: string) => playerName.length <= 2;
+const isDisabled = (playerName?: string): boolean =>
+  Boolean(playerName && playerName.length <= 2);
 
-export const Name: React.FunctionComponent<RouteComponentProps> = () => {
+export const Name: React.FunctionComponent<RouteComponentProps> = ({
+  navigate,
+}) => {
   const [state, dispatch] = useAppState();
-  const api = useApi();
 
-  if (state.roomId === 0) return <Redirect noThrow={true} to="/" />;
-  if (state.player && state.player.id) {
-    return <Redirect noThrow={true} to="/lobby" />;
-  }
-
-  const changeHandler = (dispatch: Function) => (
+  const handleChange = (dispatch: Function) => (
     event: React.FormEvent<HTMLInputElement>,
   ): void => {
     const value = event.currentTarget.value;
@@ -25,34 +21,32 @@ export const Name: React.FunctionComponent<RouteComponentProps> = () => {
 
   const handleSubmit: React.ReactEventHandler<HTMLFormElement> = e => {
     e.preventDefault();
-    api.joinRoom(state.roomId, state.fields.playerName);
+
+    if (state.fields.playerName != null && navigate) {
+      sessionStorage.setItem('playerName', state.fields.playerName);
+
+      navigate('/room');
+    }
   };
 
   return (
-    <section>
-      <div>
-        <span>Your pin!</span>
-        <span>{state.roomId}</span>
-      </div>
+    <form onSubmit={handleSubmit}>
+      <fieldset>
+        <legend>Let others know who you are.</legend>
 
-      <form onSubmit={handleSubmit}>
-        <fieldset>
-          <legend>Let others know who you are.</legend>
+        <label>
+          <span>Your name</span>
+          <input
+            type="text"
+            onChange={handleChange(dispatch)}
+            value={state.fields.playerName || ''}
+          />
+        </label>
 
-          <label>
-            <span>Your name</span>
-            <input
-              type="text"
-              onChange={changeHandler(dispatch)}
-              value={state.fields.playerName}
-            />
-          </label>
-
-          <button disabled={isDisabled(state.fields.playerName)}>
-            Let’s go!
-          </button>
-        </fieldset>
-      </form>
-    </section>
+        <button disabled={isDisabled(state.fields.playerName)}>
+          Let’s go!
+        </button>
+      </fieldset>
+    </form>
   );
 };

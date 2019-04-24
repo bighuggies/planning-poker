@@ -17,7 +17,6 @@ export type State = {
   players: Player[];
   choices: Choices;
   fields: {
-    roomId: string;
-    playerName: string;
+    playerName: string | undefined;
   };
 };

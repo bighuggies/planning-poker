@@ -23,6 +23,20 @@ export const reducer = (state: State, action: Actions): State => {
       return { ...state, ...action.payload };
 
     case 'UPDATE_PLAYERS':
+      if (state.player && state.player.id) {
+        const updatedCurrentPlayer = action.payload.find(
+          p => p.id === state.player!.id,
+        );
+
+        if (updatedCurrentPlayer) {
+          return {
+            ...state,
+            players: action.payload,
+            player: updatedCurrentPlayer,
+          };
+        }
+      }
+
       return { ...state, players: action.payload };
 
     case 'UPDATE_CHOICES':

@@ -5,15 +5,7 @@ export const actions = (roomId: number) => ({
    * create room action for making a unique room for you and your team.
    */
   createRoom: () => ({
-    type: types.CREATE_ROOM as typeof types.CREATE_ROOM,
-    payload: { roomId },
-  }),
-
-  /**
-   * remove a room if there are no more players.
-   */
-  removeRoom: () => ({
-    type: types.REMOVE_ROOM as typeof types.REMOVE_ROOM,
+    type: types.CREATE_ROOM,
     payload: { roomId },
   }),
 
@@ -21,7 +13,7 @@ export const actions = (roomId: number) => ({
    * adds a new player to a room.
    */
   joinRoom: (playerId: number, playerName: string) => ({
-    type: types.JOIN_ROOM as typeof types.JOIN_ROOM,
+    type: types.JOIN_ROOM,
     payload: { roomId, playerId, playerName },
   }),
 
@@ -29,7 +21,7 @@ export const actions = (roomId: number) => ({
    * an action for when a player has chosen a planning poker card.
    */
   playCard: (playerId: number, cardId: string) => ({
-    type: types.PLAY_CARD as typeof types.PLAY_CARD,
+    type: types.PLAY_CARD,
     payload: { roomId, playerId, cardId },
   }),
 
@@ -37,8 +29,13 @@ export const actions = (roomId: number) => ({
    * reset the cards to go again.
    */
   newRound: () => ({
-    type: types.NEW_ROUND as typeof types.NEW_ROUND,
+    type: types.NEW_ROUND,
     payload: { roomId },
+  }),
+
+  playerDisconnect: (playerId: number) => ({
+    type: types.PLAYER_DISCONNECT,
+    payload: { roomId, playerId },
   }),
 });
 

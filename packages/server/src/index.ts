@@ -110,7 +110,15 @@ io.on('connect', (socket: PlanningPokerSocket) => {
   });
 
   socket.on('disconnect', () => {
-    if (socket.roomId) store.dispatch(socket.actions.removeRoom());
+    if (socket.roomId) {
+      store.dispatch(socket.actions.playerDisconnect(socket.playerId));
+
+      const updatedPlayers = store.getState()[socket.roomId]!.players;
+
+      io.to(socket.roomId.toString()).emit(types.UPDATE_PLAYERS, {
+        players: Object.values(updatedPlayers),
+      });
+    }
   });
 });
 

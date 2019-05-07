@@ -7,7 +7,7 @@ import {
   JOIN_ROOM,
   NEW_ROUND,
   PLAY_CARD,
-  REMOVE_ROOM,
+  PLAYER_DISCONNECT,
 } from './types';
 
 export type Choices = number[]; // array of player ids
@@ -34,12 +34,19 @@ const rootReducers = (state = initialState, action: AllActions) => {
         break;
       }
 
-      case REMOVE_ROOM: {
-        const { roomId } = action.payload;
+      case PLAYER_DISCONNECT: {
+        const { roomId, playerId } = action.payload;
         const room = draft[roomId];
 
-        if (room && countPlayers(room.players) === 0) {
-          delete draft[roomId];
+        if (room) {
+          delete room.players[playerId];
+
+          if (countPlayers(room.players) === 0) {
+            delete draft[roomId];
+          } else {
+            const firstPlayer = Object.values(room.players)[0]!;
+            firstPlayer.host = true;
+          }
         }
 
         break;

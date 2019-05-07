@@ -28,6 +28,7 @@ export const reducer = (state: State, action: Actions): State => {
           p => p.id === state.player!.id,
         );
 
+        // todo: also update choices
         if (updatedCurrentPlayer) {
           return {
             ...state,

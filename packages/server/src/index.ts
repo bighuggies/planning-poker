@@ -113,11 +113,13 @@ io.on('connect', (socket: PlanningPokerSocket) => {
     if (socket.roomId) {
       store.dispatch(socket.actions.playerDisconnect(socket.playerId));
 
-      const updatedPlayers = store.getState()[socket.roomId]!.players;
+      const room = store.getState()[socket.roomId];
 
-      io.to(socket.roomId.toString()).emit(types.UPDATE_PLAYERS, {
-        players: Object.values(updatedPlayers),
-      });
+      if (room) {
+        io.to(socket.roomId.toString()).emit(types.UPDATE_PLAYERS, {
+          players: Object.values(room.players),
+        });
+      }
     }
   });
 });

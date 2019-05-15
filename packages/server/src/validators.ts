@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 export const joinRoomEventSchema = Joi.object().keys({
-  roomId: Joi.number().required(),
+  roomId: Joi.string().required(),
   playerName: Joi.string().required(),
 });
 

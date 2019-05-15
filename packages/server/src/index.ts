@@ -2,7 +2,13 @@ import Joi from 'joi';
 import { createStore } from 'redux';
 import Server from 'socket.io';
 
-import { actions } from './actions';
+import {
+  createRoom,
+  joinRoom,
+  newRound,
+  playCard,
+  playerDisconnect,
+} from './actions';
 import {
   countChoices,
   countPlayers,
@@ -10,33 +16,41 @@ import {
   createRoomId,
 } from './helpers';
 import { reducers } from './reducers';
-import * as types from './types';
+import {
+  CREATE_ROOM,
+  JOIN_ROOM,
+  NEW_ROUND,
+  PLAY_CARD,
+  ROOM_CREATED,
+  ROOM_JOINED,
+  SESSION_STARTED,
+  START_ROUND,
+  START_SESSION,
+  UPDATE_CHOICES,
+  UPDATE_PLAYERS,
+  UPDATE_STATE,
+} from './types';
 import { joinRoomEventSchema, playCardEventSchema } from './validators';
 
 const store = createStore(reducers);
 const io = Server(8000, { origins: '*:3000' });
 
-type PlanningPokerSocket = Server.Socket & {
-  actions: ReturnType<typeof actions>;
-  roomId: number;
-  playerId: number;
-};
+io.on('connect', (socket: Server.Socket) => {
+  let room: ReturnType<typeof socket.join> | undefined = undefined;
+  let playerId: number | undefined = undefined;
 
-io.on('connect', (socket: PlanningPokerSocket) => {
-  socket.on(types.CREATE_ROOM, () => {
+  socket.on(CREATE_ROOM, () => {
     const roomIds = Object.keys(store.getState());
-    const roomId = createRoomId(roomIds.map(i => parseInt(i, 10)));
+    const roomId = createRoomId(roomIds);
 
-    socket.join(roomId.toString());
-    socket.roomId = roomId;
-    socket.actions = actions(roomId);
-    store.dispatch(socket.actions.createRoom());
-    socket.emit(types.ROOM_CREATED, { roomId });
+    room = socket.join(roomId.toString());
+    store.dispatch(createRoom(roomId));
+    socket.emit(ROOM_CREATED, { roomId });
   });
 
-  socket.on(types.JOIN_ROOM, args => {
+  socket.on(JOIN_ROOM, args => {
     const { error, value } = Joi.validate<{
-      roomId: number;
+      roomId: string;
       playerName: string;
     }>(args, joinRoomEventSchema);
 
@@ -47,31 +61,31 @@ io.on('connect', (socket: PlanningPokerSocket) => {
 
     const { roomId, playerName } = value;
 
-    const room = store.getState()[roomId];
-    const players = room && room.players;
+    const currentRoom = store.getState()[roomId];
+    const players = currentRoom && currentRoom.players;
     const playerIds = Object.keys(players || {});
 
-    socket.join(roomId.toString());
-    socket.roomId = roomId;
-    socket.actions = actions(roomId);
-    socket.playerId = createPlayerId(playerIds.map(i => parseInt(i, 10)));
-    store.dispatch(socket.actions.joinRoom(socket.playerId, playerName));
+    room = socket.join(roomId.toString());
+    playerId = createPlayerId(playerIds.map(i => parseInt(i, 10)));
+    store.dispatch(joinRoom(roomId, playerId, playerName));
 
     const updatedPlayers = store.getState()[roomId]!.players;
 
-    io.to(roomId.toString()).emit(types.UPDATE_PLAYERS, {
+    io.to(room.id).emit(UPDATE_PLAYERS, {
       players: Object.values(updatedPlayers),
     });
-    socket.emit(types.ROOM_JOINED, {
-      player: updatedPlayers[socket.playerId],
+    socket.emit(ROOM_JOINED, {
+      player: updatedPlayers[playerId],
     });
   });
 
-  socket.on(types.START_SESSION, () => {
-    io.to(socket.roomId.toString()).emit(types.SESSION_STARTED);
+  socket.on(START_SESSION, () => {
+    if (room) {
+      io.to(room.id).emit(SESSION_STARTED);
+    }
   });
 
-  socket.on(types.PLAY_CARD, args => {
+  socket.on(PLAY_CARD, args => {
     const { error, value } = Joi.validate<{
       cardId: string;
     }>(args, playCardEventSchema);
@@ -81,45 +95,72 @@ io.on('connect', (socket: PlanningPokerSocket) => {
       return;
     }
 
-    const { cardId } = value;
+    if (!room) {
+      socket.emit('BAD_REQUEST', new Error('ROOM_NOT_JOINED'));
+      return;
+    }
 
-    store.dispatch(socket.actions.playCard(socket.playerId, cardId));
-    socket.emit(types.UPDATE_STATE, { hasChosen: true, isWaiting: true });
+    if (!playerId) {
+      socket.emit('BAD_REQUEST', new Error('PLAYER_NOT_CREATED'));
+      return;
+    }
 
-    const { players, choices } = store.getState()[socket.roomId]!;
+    const currentRoom = store.getState()[room.id];
 
-    io.to(socket.roomId.toString()).emit(types.UPDATE_CHOICES, { choices });
+    if (currentRoom) {
+      const { cardId } = value;
 
-    if (countPlayers(players) === countChoices(choices)) {
-      io.to(socket.roomId.toString()).emit(types.UPDATE_STATE, {
-        isWaiting: false,
-      });
+      store.dispatch(playCard(room.id, playerId, cardId));
+      socket.emit(UPDATE_STATE, { hasChosen: true, isWaiting: true });
+
+      const { players, choices } = currentRoom;
+
+      io.to(room.id).emit(UPDATE_CHOICES, { choices });
+
+      if (countPlayers(players) === countChoices(choices)) {
+        io.to(room.id).emit(UPDATE_STATE, {
+          isWaiting: false,
+        });
+      }
     }
   });
 
-  socket.on(types.NEW_ROUND, () => {
-    store.dispatch(socket.actions.newRound());
+  socket.on(NEW_ROUND, () => {
+    if (!room) {
+      socket.emit('BAD_REQUEST', new Error('ROOM_NOT_JOINED'));
+      return;
+    }
 
-    const room = store.getState()[socket.roomId];
-    const choices = room && room.choices;
+    store.dispatch(newRound(room.id));
 
-    io.to(socket.roomId.toString()).emit(types.START_ROUND, {
+    const currentRoom = store.getState()[room.id];
+    const choices = currentRoom && currentRoom.choices;
+
+    io.to(room.id.toString()).emit(START_ROUND, {
       choices,
       hasChosen: false,
     });
   });
 
   socket.on('disconnect', () => {
-    if (socket.roomId) {
-      store.dispatch(socket.actions.playerDisconnect(socket.playerId));
+    if (!room) {
+      socket.emit('BAD_REQUEST', new Error('ROOM_NOT_JOINED'));
+      return;
+    }
 
-      const room = store.getState()[socket.roomId];
+    if (!playerId) {
+      socket.emit('BAD_REQUEST', new Error('PLAYER_NOT_CREATED'));
+      return;
+    }
 
-      if (room) {
-        io.to(socket.roomId.toString()).emit(types.UPDATE_PLAYERS, {
-          players: Object.values(room.players),
-        });
-      }
+    store.dispatch(playerDisconnect(room.id, playerId));
+
+    const currentRoom = store.getState()[room.id];
+
+    if (currentRoom) {
+      io.to(room.id).emit(UPDATE_PLAYERS, {
+        players: Object.values(currentRoom.players),
+      });
     }
   });
 });

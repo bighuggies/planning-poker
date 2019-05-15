@@ -19,8 +19,8 @@ const App: React.FunctionComponent = () => (
         <Redirect noThrow={true} from="/" to="/name" />
         <Name path="/name" />
         <Room path="/room" />
-        <Lobby path="/room/:roomIdParam" />
-        <Poker path="/room/:roomIdParam/poker" />
+        <Lobby path="/room/:roomId" />
+        <Poker path="/room/:roomId/poker" />
       </Router>
     </PageContainer>
   </PageLayout>

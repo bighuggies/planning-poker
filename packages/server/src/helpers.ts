@@ -21,8 +21,8 @@ function countChoices(choices: Room['choices'] = {}) {
   return flatMap(entries, ([_, playerIds]) => playerIds || []).length;
 }
 
-function createRoomId(roomIds: number[]): number {
-  const id = generateId();
+function createRoomId(roomIds: string[]): string {
+  const id = generateId().toString();
   return !collectionContainsKey(roomIds, id) ? id : createRoomId(roomIds);
 }
 
@@ -31,7 +31,7 @@ function createPlayerId(playerIds: number[]): number {
   return !collectionContainsKey(playerIds, id) ? id : createPlayerId(playerIds);
 }
 
-function newRoom(roomId: number): Room {
+function newRoom(roomId: string): Room {
   return { id: roomId, players: {}, choices: {} };
 }
 

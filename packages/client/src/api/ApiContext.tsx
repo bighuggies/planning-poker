@@ -12,7 +12,7 @@ const actionEmitter = {
     client.emit('CREATE_ROOM');
   },
 
-  joinRoom(roomId: number, playerName: string) {
+  joinRoom(roomId: string, playerName: string) {
     client.emit('JOIN_ROOM', { roomId, playerName });
   },
 
@@ -40,7 +40,7 @@ export const ApiProvider: React.FunctionComponent = ({ children }) => {
       navigate(`/room/${state.roomId}/poker`);
     });
 
-    client.on('ROOM_CREATED', ({ roomId }: { roomId: number }) => {
+    client.on('ROOM_CREATED', ({ roomId }: { roomId: string }) => {
       dispatch(actions.roomCreated(roomId));
     });
 

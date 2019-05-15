@@ -5,7 +5,7 @@ const storedName = sessionStorage.getItem('playerName');
 export const initialState: State = {
   hasChosen: false,
   isWaiting: false,
-  roomId: 0,
+  roomId: '',
   players: [],
   choices: {},
   fields: {

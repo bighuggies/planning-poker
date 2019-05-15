@@ -6,12 +6,12 @@ import { roomCreated } from '../../state/actions';
 import { useAppState } from '../../state/useAppState';
 
 type Props = {
-  roomIdParam: string | undefined;
+  roomId: string | undefined;
 };
 
 export const RequireRoom: React.FunctionComponent<Props> = ({
   children,
-  roomIdParam,
+  roomId,
 }) => {
   const [state, dispatch] = useAppState();
   const api = useApi();
@@ -21,13 +21,11 @@ export const RequireRoom: React.FunctionComponent<Props> = ({
   // todo: remove this hack workaround
   const isJoiningRoom = React.useRef(false);
 
-  if (!state.fields.playerName) {
-    return <Redirect noThrow={true} to="/name" />;
-  }
+  // if (!state.fields.playerName) {
+  //   return <Redirect noThrow={true} to="/name" />;
+  // }
 
-  const roomId = roomIdParam != null ? parseInt(roomIdParam, 10) : undefined;
-
-  if (!roomId || Number.isNaN(roomId)) {
+  if (!roomId) {
     return <Redirect noThrow={true} to="/room" />;
   }
 

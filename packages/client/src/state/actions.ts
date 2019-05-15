@@ -8,7 +8,7 @@ export const updateField = <T extends keyof State['fields']>(
   payload: { field, value },
 });
 
-export const roomCreated = (roomId: number) => ({
+export const roomCreated = (roomId: string) => ({
   type: 'ROOM_CREATED' as const,
   payload: roomId,
 });

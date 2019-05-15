@@ -9,13 +9,13 @@ import { Results } from './components/Results';
 import { Waiting } from './components/Waiting';
 
 export const Poker: React.FunctionComponent<
-  RouteComponentProps<{ roomIdParam: string }>
+  RouteComponentProps<{ roomId: string }>
 > = props => {
   const [state] = useAppState();
   const { player, players, choices, hasChosen, isWaiting } = state;
 
   return (
-    <RequireRoom roomIdParam={props.roomIdParam}>
+    <RequireRoom roomId={props.roomId}>
       <section>
         {(() => {
           if (!hasChosen && !isWaiting) return <Cards />;

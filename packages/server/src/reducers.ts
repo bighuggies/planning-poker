@@ -1,6 +1,6 @@
 import produce from 'immer';
 
-import { AllActions } from './actions';
+import { Actions } from './actions';
 import { countPlayers, newRoom } from './helpers';
 import {
   CREATE_ROOM,
@@ -13,17 +13,17 @@ import {
 export type Choices = number[]; // array of player ids
 export type Player = { id: number; host: boolean; playerName: string };
 export type Room = {
-  id: number;
+  id: string;
   players: { [playerId: number]: Player | undefined };
   choices: { [cardId: string]: Choices | undefined };
 };
 export type AppState = {
-  [roomId: number]: Room | undefined;
+  [roomId: string]: Room | undefined;
 };
 
 const initialState: AppState = {};
 
-const rootReducers = (state = initialState, action: AllActions) => {
+const rootReducers = (state = initialState, action: Actions) => {
   return produce(state, draft => {
     switch (action.type) {
       case CREATE_ROOM: {

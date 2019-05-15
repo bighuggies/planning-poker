@@ -7,13 +7,13 @@ import { useAppState } from '../../state/useAppState';
 import { Player } from '../../types';
 
 export const Lobby: React.FunctionComponent<
-  RouteComponentProps<{ roomIdParam: string }>
+  RouteComponentProps<{ roomId: string }>
 > = props => {
   const [state] = useAppState();
   const api = useApi();
 
   return (
-    <RequireRoom roomIdParam={props.roomIdParam}>
+    <RequireRoom roomId={props.roomId}>
       <section>
         {state.player && state.player.host && (
           <button onClick={api.startSession}>Start session</button>

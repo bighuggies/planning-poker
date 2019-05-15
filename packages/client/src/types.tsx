@@ -12,7 +12,7 @@ export type Choices = {
 export type State = {
   hasChosen: boolean;
   isWaiting: boolean;
-  roomId: number;
+  roomId: string;
   player?: Player;
   players: Player[];
   choices: Choices;

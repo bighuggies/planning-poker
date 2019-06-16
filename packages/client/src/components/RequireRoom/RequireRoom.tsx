@@ -21,9 +21,9 @@ export const RequireRoom: React.FunctionComponent<Props> = ({
   // todo: remove this hack workaround
   const isJoiningRoom = React.useRef(false);
 
-  // if (!state.fields.playerName) {
-  //   return <Redirect noThrow={true} to="/name" />;
-  // }
+  if (!state.fields.playerName) {
+    return <Redirect noThrow={true} to="/name" />;
+  }
 
   if (!roomId) {
     return <Redirect noThrow={true} to="/room" />;

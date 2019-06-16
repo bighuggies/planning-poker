@@ -1,0 +1,22 @@
+FROM node:12.4.0-alpine
+
+# Environment
+WORKDIR /home/app
+ENV NODE_ENV=production
+
+# Dependencies
+COPY package.json /home/app/
+COPY yarn.lock /home/app/
+COPY lerna.json /home/app/
+COPY packages/server/package.json /home/app/packages/server/
+
+RUN yarn install --production=false --frozen-lockfile
+
+# Build
+COPY tsconfig.json /home/app/
+COPY packages/server /home/app/packages/server/
+
+RUN yarn lerna run build
+
+# Start
+CMD [ "node", "./packages/server/lib/index.js" ]
